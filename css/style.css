@@ -16,10 +16,7 @@ h1,h2{line-height:1.2}
 #menu{display:flex;gap:.25rem}
 #menu a{padding:.45rem .8rem;border-radius:8px;color:var(--ink);text-decoration:none}
 #menu a:hover,#menu a.active{background:var(--brand);color:var(--on-brand)}
-.nav-toggle{display:none}
 /* tombol */
-.btn,.nav-toggle{padding:.6rem 1.2rem;border:2px solid var(--brand);border-radius:10px;background:var(--brand);color:var(--on-brand);font:inherit;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
-.btn.ghost,.nav-toggle{background:transparent;color:var(--brand)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 :focus-visible{outline:3px solid var(--c-swap);outline-offset:2px}
 /* beranda & kartu */
@@ -65,9 +62,7 @@ th,td{padding:.6rem .8rem;border:1px solid var(--line);text-align:left}
 th{background:var(--brand);color:var(--on-brand)}
 footer{margin-top:3rem;padding:1.5rem 0;border-top:1px solid var(--line);color:var(--muted);text-align:center;font-size:.9rem}
 @media (max-width:640px){
-  .nav-toggle{display:block}
-  #menu{display:none;width:100%;flex-direction:column;padding-bottom:.5rem}
-  #menu.open{display:flex}
+  #menu{display:flex;width:100%;flex-direction:column;padding-bottom:.5rem}
   .stage{height:220px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}

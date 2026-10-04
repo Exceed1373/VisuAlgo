@@ -1,11 +1,8 @@
 'use strict';
 /* Bagian bersama: navigasi + pemilih algoritma (Scene 2 -> Scene 3/4). */
 document.addEventListener('DOMContentLoaded', () => {
-  const toggle = document.querySelector('.nav-toggle');
   const menu = document.getElementById('menu');
-  toggle.addEventListener('click', () => {
-    toggle.setAttribute('aria-expanded', menu.classList.toggle('open'));
-  });
+  if (!menu) return;
   const file = location.pathname.split('/').pop() || 'index.html';
   menu.querySelectorAll('a').forEach((a) => {
     if (a.getAttribute('href') === file) {
