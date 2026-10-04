@@ -223,46 +223,62 @@ document.addEventListener('DOMContentLoaded', () => {
     $('btn-langkah').disabled = selesai;
   }
 
-  /* Susun langkah. Untuk Binary Search, data TIDAK langsung di-sort:
-     langkah pengurutan dibuat dulu sehingga prosesnya bisa divisualisasikan. */
+  /* Susun langkah awal. Untuk Binary Search yang datanya masih acak,
+     visualisasi TIDAK langsung mengurutkan data. Data tetap terlihat acak
+     sampai tombol "Mulai" ditekan. Saat "Mulai" ditekan, data langsung
+     berubah menjadi terurut di dalam box, lalu Binary Search berjalan. */
   function susun() {
     jeda();
     if (!cekTarget()) return;
 
     const target = Number($('input-target').value);
-    let dataAwal = [...P.data];
+    const dataAwal = [...P.data];
+
+    P.diurutkan = state.algo === 'binary' && terurut(dataAwal);
 
     if (state.algo === 'binary' && !terurut(dataAwal)) {
-      const hasilUrut = buatLangkahUrutBinary(dataAwal, target);
-      const langkahCari = buatLangkah('binary', hasilUrut.data, target);
-
-      // Hindari snapshot pembuka "Binary Search..." muncul dua kali.
-      if (langkahCari.length) langkahCari.shift();
-
-      // Nomor langkah/counter pencarian dimulai dari 0 setelah sorting.
-      P.steps = hasilUrut.steps.concat(
-        langkahCari.map(st => ({
-          ...st,
-          phase: st.phase || 'search',
-          hasil: st.hasil
-        }))
-      );
-      P.data = hasilUrut.data;
-      P.diurutkan = true;
+      P.steps = [{
+        data: [...dataAwal],
+        lo: 0, hi: dataAwal.length - 1, mid: -1, cmp: -1, found: -1,
+        phase: 'idle', c: 0,
+        msg: `Data masih acak: [${dataAwal.join(', ')}]. Klik Mulai untuk mengurutkan data terlebih dahulu, kemudian menjalankan Binary Search.`,
+        hasil: 'belum dimulai'
+      }];
     } else {
-      if (state.algo === 'binary') {
-        P.data = dataAwal;
-        P.diurutkan = false;
-      } else {
-        P.data = dataAwal;
-        P.diurutkan = false;
-      }
-      P.steps = buatLangkah(state.algo, P.data, target);
+      P.steps = buatLangkah(state.algo, dataAwal, target);
     }
 
     $('peringatan').hidden = state.algo !== 'binary';
     P.idx = 0;
     render();
+  }
+
+  /* Menyiapkan Binary Search tepat ketika tombol "Mulai" ditekan.
+     Data pada box langsung menjadi terurut, kemudian ada satu jeda singkat
+     agar perubahan urutan terlihat sebelum indikator Binary Search bergerak. */
+  function siapkanBinarySaatMulai() {
+    if (state.algo !== 'binary' || terurut(P.data)) return false;
+
+    const target = Number($('input-target').value);
+    const hasilUrut = [...P.data].sort((a, b) => a - b);
+    const langkahCari = buatLangkah('binary', hasilUrut, target);
+
+    // Hapus snapshot pembuka agar setelah data terurut, langkah berikutnya
+    // langsung merupakan langkah Binary Search.
+    if (langkahCari.length) langkahCari.shift();
+
+    P.data = hasilUrut;
+    P.diurutkan = true;
+    P.steps = [{
+      data: [...hasilUrut],
+      lo: 0, hi: hasilUrut.length - 1, mid: -1, cmp: -1, found: -1,
+      phase: 'transition', c: 0,
+      msg: `Data acak sudah diurutkan otomatis menjadi [${hasilUrut.join(', ')}]. Sekarang Binary Search dimulai untuk mencari ${target}.`,
+      hasil: 'data terurut'
+    }, ...langkahCari];
+    P.idx = 0;
+    render();
+    return true;
   }
 
   function muatData(data) {
@@ -308,7 +324,26 @@ document.addEventListener('DOMContentLoaded', () => {
   function mulai() {
     if (berjalan() || !cekTarget()) return;
 
-    if (P.idx === 0 || P.idx === terakhir()) susun();
+    // Khusus Binary Search: saat Mulai diklik, box langsung berubah dari
+    // data acak menjadi data terurut. Setelah jeda singkat, baru pencarian
+    // Binary Search berjalan.
+    if (state.algo === 'binary' && !terurut(P.data)) {
+      siapkanBinarySaatMulai();
+      const jedaSort = 900;
+      P.timer = setTimeout(() => {
+        P.timer = null;
+        jalankanBinary();
+      }, jedaSort);
+      perbaruiTombol();
+      return;
+    }
+
+    if (P.idx === terakhir()) susun();
+    jalankanBinary();
+  }
+
+  function jalankanBinary() {
+    if (P.idx >= terakhir()) return;
 
     const tick = () => {
       P.idx++;
@@ -323,7 +358,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function langkah() {
     if (!cekTarget()) return;
     jeda();
-    if (P.idx === 0) susun();
+
+    // Pada Binary Search, satu klik Langkah pertama juga mengubah data acak
+    // menjadi terurut; klik berikutnya menjalankan langkah pencarian.
+    if (state.algo === 'binary' && !terurut(P.data)) {
+      siapkanBinarySaatMulai();
+      return;
+    }
+
+    if (P.idx === 0 && P.steps.length <= 1) susun();
     if (P.idx < terakhir()) {
       P.idx++;
       render();
