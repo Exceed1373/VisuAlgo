@@ -25,15 +25,69 @@
     <button class="card algo-card" data-algo="quick" aria-pressed="false"><h2>Quick Sort</h2><p>Memilih pivot, membagi data menjadi lebih kecil dan lebih besar dari pivot, lalu mengurutkan tiap bagian.</p></button>
     <button class="card algo-card" data-algo="merge" aria-pressed="false"><h2>Merge Sort</h2><p>Membagi data menjadi dua bagian, mengurutkan masing-masing, lalu menggabungkannya kembali.</p></button>
   </div>
-  <h2>Kompleksitas waktu</h2>
-  <div class="table-wrap"><table>
-    <tr><th>Algoritma</th><th>Terbaik</th><th>Rata-rata</th><th>Terburuk</th></tr>
-    <tr><td>Bubble Sort</td><td>O(n)</td><td>O(n&sup2;)</td><td>O(n&sup2;)</td></tr>
-    <tr><td>Selection Sort</td><td>O(n&sup2;)</td><td>O(n&sup2;)</td><td>O(n&sup2;)</td></tr>
-    <tr><td>Insertion Sort</td><td>O(n)</td><td>O(n&sup2;)</td><td>O(n&sup2;)</td></tr>
-    <tr><td>Quick Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n&sup2;)</td></tr>
-    <tr><td>Merge Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td></tr>
-  </table></div>
+  <h2>Kompleksitas Waktu</h2>
+
+<div class="table-wrap">
+  <table class="complexity-table">
+    <thead>
+      <tr>
+        <th>Algoritma</th>
+        <th>Terbaik</th>
+        <th>Rata-rata</th>
+        <th>Terburuk</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Bubble Sort</strong></td>
+        <td><span class="complexity good">O(n)</span></td>
+        <td><span class="complexity slow">O(n²)</span></td>
+        <td><span class="complexity slow">O(n²)</span></td>
+      </tr>
+
+      <tr>
+        <td><strong>Selection Sort</strong></td>
+        <td><span class="complexity slow">O(n²)</span></td>
+        <td><span class="complexity slow">O(n²)</span></td>
+        <td><span class="complexity slow">O(n²)</span></td>
+      </tr>
+
+      <tr>
+        <td><strong>Insertion Sort</strong></td>
+        <td><span class="complexity good">O(n)</span></td>
+        <td><span class="complexity slow">O(n²)</span></td>
+        <td><span class="complexity slow">O(n²)</span></td>
+      </tr>
+
+      <tr>
+        <td><strong>Quick Sort</strong></td>
+        <td><span class="complexity good">O(n log n)</span></td>
+        <td><span class="complexity good">O(n log n)</span></td>
+        <td><span class="complexity slow">O(n²)</span></td>
+      </tr>
+
+      <tr>
+        <td><strong>Merge Sort</strong></td>
+        <td><span class="complexity good">O(n log n)</span></td>
+        <td><span class="complexity good">O(n log n)</span></td>
+        <td><span class="complexity good">O(n log n)</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="complexity-info">
+  <p><strong>Cara membaca:</strong></p>
+  <div class="complexity-guide">
+    <span><span class="complexity good">O(n)</span> Cepat</span>
+    <span><span class="complexity good">O(n log n)</span> Relatif cepat</span>
+    <span><span class="complexity slow">O(n²)</span> Lebih lambat</span>
+  </div>
+  <p class="complexity-note">
+    Semakin kecil pertumbuhan kompleksitasnya, semakin baik kinerja algoritma
+    ketika jumlah data semakin banyak.
+  </p>
+</div>
   <p><button id="btn-buka" class="btn" disabled>Buka visualisasi</button></p>
 </section>
 
