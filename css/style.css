@@ -17,7 +17,12 @@ h1,h2{line-height:1.2}
 #menu a{padding:.45rem .8rem;border-radius:8px;color:var(--ink);text-decoration:none}
 #menu a:hover,#menu a.active{background:var(--brand);color:var(--on-brand)}
 /* tombol */
-.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn{padding:.62rem 1.15rem;border:2px solid var(--brand);border-radius:10px;background:var(--brand);color:var(--on-brand);font:inherit;font-weight:700;line-height:1.2;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:42px;transition:transform .15s ease,background .15s ease,border-color .15s ease,box-shadow .15s ease,opacity .15s ease}
+.btn:hover:not(:disabled){background:color-mix(in srgb,var(--brand) 88%,black);border-color:color-mix(in srgb,var(--brand) 88%,black);box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px)}
+.btn:active:not(:disabled){transform:translateY(0);box-shadow:none}
+.btn.ghost{background:transparent;color:var(--brand);box-shadow:none}
+.btn.ghost:hover:not(:disabled){background:color-mix(in srgb,var(--brand) 10%,transparent);border-color:var(--brand);box-shadow:none}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 :focus-visible{outline:3px solid var(--c-swap);outline-offset:2px}
 /* beranda & kartu */
 .hero{padding:3rem 0 1.5rem;text-align:center}
