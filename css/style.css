@@ -87,3 +87,106 @@ footer{margin-top:3rem;padding:1.5rem 0;border-top:1px solid var(--line);color:v
 .cell span{font-size:1.15rem}
 .cell .penanda{min-height:1.3em;font-size:.7rem;font-weight:700}
 .cell.dim{opacity:.35}
+/* ================================
+   Tabel Kompleksitas
+   ================================ */
+
+.complexity-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.complexity-table th,
+.complexity-table td {
+  padding: 12px 14px;
+  text-align: center;
+}
+
+.complexity-table th:first-child,
+.complexity-table td:first-child {
+  text-align: left;
+}
+
+.complexity-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.complexity-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Badge kompleksitas */
+.complexity {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.complexity.good {
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.complexity.slow {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* Penjelasan tabel */
+.complexity-info {
+  margin-top: 16px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.complexity-info p {
+  margin: 0;
+}
+
+.complexity-guide {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin: 10px 0;
+}
+
+.complexity-guide span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.complexity-note {
+  margin-top: 10px !important;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+/* Tampilan HP */
+@media (max-width: 650px) {
+  .complexity-table th,
+  .complexity-table td {
+    padding: 9px 7px;
+    font-size: 0.85rem;
+  }
+
+  .complexity {
+    padding: 4px 7px;
+    font-size: 0.8rem;
+  }
+
+  .complexity-guide {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
