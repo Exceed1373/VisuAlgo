@@ -1,211 +1,721 @@
-'use strict';
-/* Visualisasi Sorting (Scene 3).
-   Pola: algoritma dijalankan lebih dulu -> menghasilkan daftar "snapshot" langkah (steps),
-   lalu pemutar (setTimeout) hanya menampilkan snapshot. Ini membuat Jeda/Langkah/Reset sederhana.
-   Menambah algoritma baru: tambahkan satu fungsi di ALGO dan satu baris di INFO + satu kartu di HTML. */
+/* ==========================================================
+   VisuAlgo PTIK - sorting.js
+   Logika visualisasi halaman Sorting
+   ========================================================== */
 
-const INFO = { // [nama, terbaik, rata-rata, terburuk]
-  bubble: ['Bubble Sort', 'O(n)', 'O(n²)', 'O(n²)'],
-  selection: ['Selection Sort', 'O(n²)', 'O(n²)', 'O(n²)'],
-  insertion: ['Insertion Sort', 'O(n)', 'O(n²)', 'O(n²)'],
-  quick: ['Quick Sort', 'O(n log n)', 'O(n log n)', 'O(n²)'],
-  merge: ['Merge Sort', 'O(n log n)', 'O(n log n)', 'O(n log n)']
-};
+(function() {
+  // Pseudocode Database
+  const pseudocodes = {
+    bubble: [
+      { text: "procedure bubbleSort(A : list of sortable items)", id: 0 },
+      { text: "  n = length(A)", id: 1 },
+      { text: "  repeat", id: 2 },
+      { text: "    swapped = false", id: 3 },
+      { text: "    for i = 1 to n-1 inclusive do", id: 4 },
+      { text: "      if A[i-1] > A[i] then", id: 5 },
+      { text: "        swap(A[i-1], A[i])", id: 6 },
+      { text: "        swapped = true", id: 7 },
+      { text: "      end if", id: 8 },
+      { text: "    end for", id: 9 },
+      { text: "    n = n - 1", id: 10 },
+      { text: "  until not swapped", id: 11 },
+      { text: "end procedure", id: 12 }
+    ],
+    selection: [
+      { text: "procedure selectionSort(A : list of items)", id: 0 },
+      { text: "  n = length(A)", id: 1 },
+      { text: "  for i = 0 to n-2 do", id: 2 },
+      { text: "    min_idx = i", id: 3 },
+      { text: "    for j = i+1 to n-1 do", id: 4 },
+      { text: "      if A[j] < A[min_idx] then min_idx = j", id: 5 },
+      { text: "    end for", id: 6 },
+      { text: "    if min_idx != i then swap(A[i], A[min_idx])", id: 7 },
+      { text: "  end for", id: 8 },
+      { text: "end procedure", id: 9 }
+    ],
+    insertion: [
+      { text: "procedure insertionSort(A : list of items)", id: 0 },
+      { text: "  for i = 1 to length(A)-1 do", id: 1 },
+      { text: "    key = A[i]", id: 2 },
+      { text: "    j = i - 1", id: 3 },
+      { text: "    while j >= 0 and A[j] > key do", id: 4 },
+      { text: "      A[j + 1] = A[j]", id: 5 },
+      { text: "      j = j - 1", id: 6 },
+      { text: "    end while", id: 7 },
+      { text: "    A[j + 1] = key", id: 8 },
+      { text: "  end for", id: 9 },
+      { text: "end procedure", id: 10 }
+    ],
+    quick: [
+      { text: "procedure quickSort(A, low, high)", id: 0 },
+      { text: "  if low < high then", id: 1 },
+      { text: "    p = partition(A, low, high)", id: 2 },
+      { text: "    quickSort(A, low, p - 1)", id: 3 },
+      { text: "    quickSort(A, p + 1, high)", id: 4 },
+      { text: "  end if", id: 5 },
+      { text: "end procedure", id: 6 }
+    ],
+    merge: [
+      { text: "procedure mergeSort(A, left, right)", id: 0 },
+      { text: "  if left < right then", id: 1 },
+      { text: "    mid = (left + right) / 2", id: 2 },
+      { text: "    mergeSort(A, left, mid)", id: 3 },
+      { text: "    mergeSort(A, mid + 1, right)", id: 4 },
+      { text: "    merge(A, left, mid, right)", id: 5 },
+      { text: "  end if", id: 6 },
+      { text: "end procedure", id: 7 }
+    ]
+  };
 
-/* ---------- 1. Algoritma: tiap fungsi memanggil snap() pada setiap kejadian penting ---------- */
-const ALGO = {
-  bubble({ a, n, k, snap, swap, done }) {
-    for (let i = 0; i < n - 1; i++) {
-      let tukar = false;
-      for (let j = 0; j < n - 1 - i; j++) {
-        k.c++; snap(`Bandingkan ${a[j]} dan ${a[j + 1]}`, { cmp: [j, j + 1] });
-        if (a[j] > a[j + 1]) {
-          const x = a[j], y = a[j + 1];
-          swap(j, j + 1); tukar = true;
-          snap(`${x} > ${y}, tukar posisi`, { swp: [j, j + 1] });
-        }
-      }
-      done.add(n - 1 - i);
-      if (!tukar) break; // tidak ada pertukaran: data sudah terurut
-    }
-  },
-  selection({ a, n, k, snap, swap, done }) {
-    for (let i = 0; i < n - 1; i++) {
-      let m = i;
-      snap(`Cari nilai terkecil mulai indeks ${i}`, { pivot: m });
-      for (let j = i + 1; j < n; j++) {
-        k.c++; snap(`Bandingkan ${a[j]} dengan minimum sementara ${a[m]}`, { cmp: [j], pivot: m });
-        if (a[j] < a[m]) { m = j; snap(`${a[m]} menjadi minimum baru`, { pivot: m }); }
-      }
-      if (m !== i) {
-        const x = a[i], y = a[m];
-        swap(i, m); snap(`Tukar minimum ${y} dengan ${x}`, { swp: [i, m] });
-      }
-      done.add(i);
-    }
-  },
-  insertion({ a, n, k, snap, swap, done }) {
-    for (let i = 1; i < n; i++) {
-      done.clear(); for (let x = 0; x < i; x++) done.add(x);
-      snap(`Ambil ${a[i]} untuk disisipkan ke bagian kiri yang terurut`, { pivot: i });
-      for (let p = i; p > 0; p--) {
-        k.c++; snap(`Bandingkan ${a[p - 1]} dan ${a[p]}`, { cmp: [p - 1, p] });
-        if (a[p - 1] <= a[p]) break;
-        const x = a[p - 1], y = a[p];
-        swap(p - 1, p); snap(`${x} > ${y}, geser ${y} ke kiri`, { swp: [p - 1, p] });
-      }
-    }
-  },
-  quick({ a, n, k, snap, swap, done }) { // partisi Lomuto, pivot = elemen terakhir
-    const qs = (lo, hi) => {
-      if (lo > hi) return;
-      if (lo === hi) { done.add(lo); return; }
-      const p = a[hi]; let i = lo;
-      snap(`Pilih pivot ${p}, partisi indeks ${lo}–${hi}`, { pivot: hi });
-      for (let j = lo; j < hi; j++) {
-        k.c++; snap(`Bandingkan ${a[j]} dengan pivot ${p}`, { cmp: [j], pivot: hi });
-        if (a[j] < p) {
-          if (i !== j) {
-            const x = a[i], y = a[j];
-            swap(i, j); snap(`${y} < ${p}, tukar dengan ${x}`, { swp: [i, j], pivot: hi });
-          }
-          i++;
-        }
-      }
-      if (i !== hi) { swap(i, hi); snap(`Tempatkan pivot ${p} di indeks ${i}`, { swp: [i, hi] }); }
-      done.add(i);
-      snap(`Pivot ${p} sudah berada di posisi akhir (indeks ${i})`, { pivot: i });
-      qs(lo, i - 1); qs(i + 1, hi);
-    };
-    qs(0, n - 1);
-  },
-  merge({ a, n, k, snap }) { // "pertukaran" = pemindahan elemen ke hasil gabungan
-    const ms = (lo, hi) => {
-      if (lo >= hi) return;
-      const mid = (lo + hi) >> 1, range = [lo, hi];
-      snap(`Bagi indeks ${lo}–${hi} menjadi ${lo}–${mid} dan ${mid + 1}–${hi}`, { range });
-      ms(lo, mid); ms(mid + 1, hi);
-      const L = a.slice(lo, mid + 1), R = a.slice(mid + 1, hi + 1), M = [];
-      let i = 0, j = 0;
-      const view = () => [...a.slice(0, lo), ...M, ...L.slice(i), ...R.slice(j), ...a.slice(hi + 1)];
-      while (i < L.length && j < R.length) {
-        k.c++;
-        snap(`Bandingkan ${L[i]} (kiri) dan ${R[j]} (kanan)`, { arr: view(), cmp: [lo + M.length, lo + M.length + L.length - i], range });
-        M.push(L[i] <= R[j] ? L[i++] : R[j++]); k.s++;
-        snap(`Pindahkan ${M[M.length - 1]} ke hasil gabungan`, { arr: view(), swp: [lo + M.length - 1], range });
-      }
-      k.s += L.length - i + R.length - j;
-      M.push(...L.slice(i), ...R.slice(j));
-      M.forEach((v, x) => { a[lo + x] = v; });
-      snap(`Hasil gabungan indeks ${lo}–${hi}: ${M.join(', ')}`, { range });
-    };
-    ms(0, n - 1);
+  // State Variables
+  let currentAlgo = 'bubble';
+  let array = [80, 30, 55, 42, 19, 73, 95, 12, 64, 48];
+  let isRunning = false;
+  let isPaused = false;
+  let executionSteps = [];
+  let currentStepIdx = 0;
+  let timerId = null;
+  let comparisons = 0;
+  let swaps = 0;
+  let soundEnabled = true;
+
+  // Audio Context for Educational Feedback Clicks
+  let audioCtx = null;
+  function playBeep(freq = 440) {
+    if (!soundEnabled) return;
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.08);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.09);
+    } catch(e) {}
   }
-};
 
-/* ---------- 2. Pembuat langkah ---------- */
-function buatLangkah(algo, data) {
-  const a = data.slice(), n = a.length, steps = [], done = new Set(), k = { c: 0, s: 0 };
-  const snap = (msg, o = {}) => steps.push({
-    arr: o.arr || a.slice(), cmp: o.cmp || [], swp: o.swp || [], pivot: o.pivot ?? -1,
-    range: o.range || null, done: [...done], msg, c: k.c, s: k.s
-  });
-  const swap = (i, j) => { [a[i], a[j]] = [a[j], a[i]]; k.s++; };
-  const [nama, b, r, t] = INFO[algo];
-  snap(`${nama}: kompleksitas waktu terbaik ${b}, rata-rata ${r}, terburuk ${t}. Tekan Mulai atau Langkah.`);
-  ALGO[algo]({ a, n, k, snap, swap, done });
-  for (let i = 0; i < n; i++) done.add(i);
-  snap(`Selesai! Semua elemen terurut.${algo === 'merge' ? ' (Pada Merge Sort, pertukaran dihitung sebagai pemindahan elemen.)' : ''}`);
-  return steps;
-}
+  // DOM Elements
+  const chartContainer = document.getElementById('chartContainer');
+  const compareCountEl = document.getElementById('compareCount');
+  const swapCountEl = document.getElementById('swapCount');
+  const logHeadlineEl = document.getElementById('logHeadline');
+  const logDetailEl = document.getElementById('logDetail');
+  const pseudocodeContainer = document.getElementById('pseudocodeContainer');
+  const activeAlgoBadge = document.getElementById('activeAlgoBadge');
+  const currentPointersEl = document.getElementById('currentPointers');
+  const activePassIndicator = document.getElementById('activePassIndicator');
+  const speedSlider = document.getElementById('speedSlider');
+  const sizeSlider = document.getElementById('sizeSlider');
+  const sizeValueEl = document.getElementById('sizeValue');
+  const customArrayInput = document.getElementById('customArrayInput');
 
-/* ---------- 3. Antarmuka & pemutar ---------- */
-document.addEventListener('DOMContentLoaded', () => {
-  const state = initPemilihAlgoritma(Object.fromEntries(Object.entries(INFO).map(([id, v]) => [id, v[0]])));
-  const $ = (id) => document.getElementById(id);
-  const stage = $('stage');
-  const P = { data: [], steps: [], idx: 0, timer: null, bars: [], max: 1 };
-  const JEDA_MS = [1000, 600, 350, 180, 60]; // sesuai slider kecepatan 1–5
-  const MIN_N = 5, MAX_N = 30;
-
-  const terakhir = () => P.steps.length - 1;
-  const berjalan = () => P.timer !== null;
-  const jeda = () => { clearTimeout(P.timer); P.timer = null; if (P.steps.length) perbaruiTombol(); };
-  const tampilGalat = (msg) => { $('pesan-galat').textContent = msg; $('pesan-galat').hidden = !msg; };
-
-  function kelas(st, i) {
-    const c = st.swp.includes(i) ? 'swap' : st.cmp.includes(i) ? 'compare' : st.pivot === i ? 'pivot' : st.done.includes(i) ? 'done' : '';
-    const redup = st.range && (i < st.range[0] || i > st.range[1]) ? ' dim' : '';
-    return `bar ${c}${redup}`.trim();
-  }
-  function render() {
-    const st = P.steps[P.idx];
-    P.bars.forEach((b, i) => {
-      b.style.height = `${Math.max((st.arr[i] / P.max) * 100, 6)}%`;
-      b.textContent = st.arr[i];
-      b.className = kelas(st, i);
+  // Render Pseudocode
+  function renderPseudocode(algo) {
+    pseudocodeContainer.innerHTML = '';
+    const lines = pseudocodes[algo] || [];
+    lines.forEach((lineObj, idx) => {
+      const lineDiv = document.createElement('div');
+      lineDiv.id = `code-line-${idx}`;
+      lineDiv.className = 'py-0.5 px-2 rounded font-code-block transition-colors flex items-center gap-3';
+      lineDiv.innerHTML = `
+        <span class="text-outline-variant font-label-mono text-[11px] w-5 text-right select-none">${idx + 1}</span>
+        <span class="flex-1 whitespace-pre">${escapeHtml(lineObj.text)}</span>
+      `;
+      pseudocodeContainer.appendChild(lineDiv);
     });
-    $('penjelasan').textContent = st.msg;
-    $('n-banding').textContent = st.c;
-    $('n-tukar').textContent = st.s;
-    perbaruiTombol();
-  }
-  function perbaruiTombol() {
-    const selesai = P.idx === terakhir();
-    $('btn-mulai').disabled = berjalan();
-    $('btn-mulai').textContent = selesai ? 'Ulangi' : 'Mulai';
-    $('btn-jeda').disabled = !berjalan();
-    $('btn-langkah').disabled = selesai;
   }
 
-  function susun() { jeda(); P.steps = buatLangkah(state.algo, P.data); P.idx = 0; render(); }
-  function muatData(data) {
-    P.data = data; P.max = Math.max(...data);
-    stage.innerHTML = '';
-    P.bars = data.map(() => stage.appendChild(document.createElement('div')));
-    stage.classList.toggle('padat', data.length > 18);
-    susun();
+  function highlightLine(lineIdx) {
+    document.querySelectorAll('#pseudocodeContainer > div').forEach(el => {
+      el.className = 'py-0.5 px-2 rounded font-code-block transition-colors flex items-center gap-3 text-on-surface-variant';
+    });
+    if (lineIdx !== null && lineIdx !== undefined) {
+      const target = document.getElementById(`code-line-${lineIdx}`);
+      if (target) {
+        target.className = 'py-0.5 px-2 rounded font-code-block transition-colors flex items-center gap-3 bg-primary/10 text-primary font-semibold border-l-2 border-primary';
+      }
+    }
   }
 
-  /* kontrol animasi */
-  function mulai() {
-    if (berjalan()) return;
-    if (P.idx === terakhir()) P.idx = 0;
-    const tick = () => {
-      P.idx++;
-      P.timer = P.idx < terakhir() ? setTimeout(tick, JEDA_MS[$('input-kecepatan').value - 1]) : null;
-      render();
-    };
-    tick();
-  }
-  function langkah() { jeda(); if (P.idx < terakhir()) { P.idx++; render(); } }
-  function reset() { jeda(); P.idx = 0; render(); }
-
-  /* pengaturan data + validasi */
-  function acak() {
-    const n = Number($('input-jumlah').value);
-    if (!Number.isInteger(n) || n < MIN_N || n > MAX_N) return tampilGalat(`Jumlah data harus bilangan bulat ${MIN_N}–${MAX_N}.`);
-    tampilGalat('');
-    muatData(Array.from({ length: n }, () => 5 + Math.floor(Math.random() * 95)));
-  }
-  function terapkanManual() {
-    const token = $('input-manual').value.split(/[\s,;]+/).filter(Boolean);
-    if (!token.length) return tampilGalat('Masukkan angka dipisahkan koma, contoh: 80, 30, 55.');
-    const salah = token.find((t) => !/^\d+$/.test(t) || +t < 1 || +t > 99);
-    if (salah) return tampilGalat(`"${salah}" tidak valid. Gunakan bilangan bulat 1–99.`);
-    if (token.length < 2 || token.length > MAX_N) return tampilGalat(`Jumlah data harus 2–${MAX_N} angka (sekarang ${token.length}).`);
-    tampilGalat('');
-    muatData(token.map(Number));
+  function escapeHtml(string) {
+    return String(string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  $('btn-buka').addEventListener('click', () => (P.data.length ? susun() : muatData(Array.from({ length: 8 }, () => 5 + Math.floor(Math.random() * 95)))));
-  $('btn-ganti').addEventListener('click', jeda);
-  $('btn-mulai').addEventListener('click', mulai);
-  $('btn-jeda').addEventListener('click', jeda);
-  $('btn-langkah').addEventListener('click', langkah);
-  $('btn-reset').addEventListener('click', reset);
-  $('btn-acak').addEventListener('click', acak);
-  $('input-jumlah').addEventListener('change', acak);
-  $('btn-terapkan').addEventListener('click', terapkanManual);
-  $('input-manual').addEventListener('keydown', (e) => { if (e.key === 'Enter') terapkanManual(); });
-});
+  // Render Bars
+  function renderBars(highlightIndices = {}, stateColors = {}) {
+    chartContainer.innerHTML = '';
+    const maxVal = Math.max(...array, 100);
+
+    array.forEach((val, idx) => {
+      const barWrapper = document.createElement('div');
+      barWrapper.className = 'flex flex-col items-center flex-1 h-full justify-end max-w-[48px] min-w-[14px] group';
+
+      const barHeightPct = Math.max(12, Math.round((val / maxVal) * 92));
+      
+      // Determine bar color
+      let colorClass = 'bg-primary text-on-primary-container shadow-[0_0_12px_rgba(76,215,246,0.35)]';
+      if (stateColors[idx]) {
+        if (stateColors[idx] === 'compare') {
+          colorClass = 'bg-tertiary text-on-tertiary-container shadow-[0_0_14px_rgba(255,185,95,0.7)] scale-y-105';
+        } else if (stateColors[idx] === 'swap' || stateColors[idx] === 'pivot') {
+          colorClass = 'bg-error text-on-error shadow-[0_0_15px_rgba(255,180,171,0.8)] scale-y-105';
+        } else if (stateColors[idx] === 'sorted') {
+          colorClass = 'bg-secondary text-on-secondary shadow-[0_0_12px_rgba(78,222,163,0.5)]';
+        }
+      }
+
+      barWrapper.innerHTML = `
+        <span class="font-label-mono text-[11px] mb-1 font-bold text-on-surface opacity-90 transition-transform ${highlightIndices[idx] ? 'text-primary scale-110' : ''}">${val}</span>
+        <div style="height: ${barHeightPct}%;" class="w-full rounded-t-md transition-all duration-150 flex items-start justify-center pt-1 ${colorClass}">
+          <span class="text-[9px] font-label-mono opacity-60 hidden md:block"></span>
+        </div>
+        <span class="font-label-mono text-[10px] text-outline mt-1 hidden sm:block">${idx}</span>
+      `;
+      chartContainer.appendChild(barWrapper);
+    });
+  }
+
+  // Step Generators
+  function generateSteps() {
+    executionSteps = [];
+    const arrCopy = [...array];
+    const n = arrCopy.length;
+
+    if (currentAlgo === 'bubble') {
+      let swapped;
+      let totalPasses = 0;
+      for (let i = 0; i < n - 1; i++) {
+        swapped = false;
+        totalPasses++;
+        for (let j = 0; j < n - i - 1; j++) {
+          // Compare step
+          executionSteps.push({
+            type: 'compare',
+            indices: [j, j + 1],
+            arr: [...arrCopy],
+            codeLine: 5,
+            pass: `${i + 1}/${n - 1}`,
+            logTitle: `Komparasi Nilai: Indeks [${j}] & [${j+1}]`,
+            logDesc: `Bandingkan ${arrCopy[j]} dengan ${arrCopy[j + 1]}. Apakah ${arrCopy[j]} > ${arrCopy[j + 1]}?`
+          });
+
+          if (arrCopy[j] > arrCopy[j + 1]) {
+            const temp = arrCopy[j];
+            arrCopy[j] = arrCopy[j + 1];
+            arrCopy[j + 1] = temp;
+            swapped = true;
+
+            executionSteps.push({
+              type: 'swap',
+              indices: [j, j + 1],
+              arr: [...arrCopy],
+              codeLine: 6,
+              pass: `${i + 1}/${n - 1}`,
+              logTitle: `Tukar Elemen (Swap)!`,
+              logDesc: `${arrCopy[j + 1]} > ${arrCopy[j]}, lakukan penukaran posisi memori.`
+            });
+          }
+        }
+        executionSteps.push({
+          type: 'markSorted',
+          sortedIndex: n - 1 - i,
+          arr: [...arrCopy],
+          codeLine: 10,
+          pass: `${i + 1}/${n - 1}`,
+          logTitle: `Elemen Posisi Akhir Terkunci`,
+          logDesc: `Elemen terbesar di iterasi ini (${arrCopy[n - 1 - i]}) sudah menempati posisi terurut absolut.`
+        });
+        if (!swapped) break;
+      }
+    } else if (currentAlgo === 'selection') {
+      for (let i = 0; i < n - 1; i++) {
+        let minIdx = i;
+        executionSteps.push({
+          type: 'compare',
+          indices: [i, minIdx],
+          arr: [...arrCopy],
+          codeLine: 3,
+          pass: `${i + 1}/${n - 1}`,
+          logTitle: `Inisialisasi Nilai Minimum Baru`,
+          logDesc: `Asumsikan indeks awal ${i} bernilai (${arrCopy[i]}) sebagai minimum sementara.`
+        });
+
+        for (let j = i + 1; j < n; j++) {
+          executionSteps.push({
+            type: 'compare',
+            indices: [j, minIdx],
+            arr: [...arrCopy],
+            codeLine: 5,
+            pass: `${i + 1}/${n - 1}`,
+            logTitle: `Pindai Minimum Sisa Array`,
+            logDesc: `Cek apakah ${arrCopy[j]} < ${arrCopy[minIdx]} (nilai min sekarang).`
+          });
+          if (arrCopy[j] < arrCopy[minIdx]) {
+            minIdx = j;
+            executionSteps.push({
+              type: 'highlight',
+              indices: [minIdx],
+              arr: [...arrCopy],
+              codeLine: 5,
+              pass: `${i + 1}/${n - 1}`,
+              logTitle: `Ditemukan Kandidat Minimum Baru`,
+              logDesc: `Nilai minimum sementara kini diperbarui ke ${arrCopy[minIdx]} pada indeks [${minIdx}].`
+            });
+          }
+        }
+
+        if (minIdx !== i) {
+          const temp = arrCopy[i];
+          arrCopy[i] = arrCopy[minIdx];
+          arrCopy[minIdx] = temp;
+          executionSteps.push({
+            type: 'swap',
+            indices: [i, minIdx],
+            arr: [...arrCopy],
+            codeLine: 7,
+            pass: `${i + 1}/${n - 1}`,
+            logTitle: `Tukar Minimum ke Indeks [${i}]`,
+            logDesc: `Tukar posisi ${arrCopy[minIdx]} dan ${arrCopy[i]}.`
+          });
+        }
+        executionSteps.push({
+          type: 'markSorted',
+          sortedIndex: i,
+          arr: [...arrCopy],
+          codeLine: 8,
+          pass: `${i + 1}/${n - 1}`,
+          logTitle: `Indeks [${i}] Selesai`,
+          logDesc: `Posisi ${i} kini telah memegang nilai minimum pasti.`
+        });
+      }
+    } else if (currentAlgo === 'insertion') {
+      for (let i = 1; i < n; i++) {
+        let key = arrCopy[i];
+        let j = i - 1;
+        executionSteps.push({
+          type: 'compare',
+          indices: [i],
+          arr: [...arrCopy],
+          codeLine: 2,
+          pass: `${i}/${n - 1}`,
+          logTitle: `Simpan Key: ${key}`,
+          logDesc: `Ambil elemen indeks [${i}] = ${key} untuk disisipkan ke bagian array kiri yang sudah terurut.`
+        });
+
+        while (j >= 0 && arrCopy[j] > key) {
+          executionSteps.push({
+            type: 'compare',
+            indices: [j, j + 1],
+            arr: [...arrCopy],
+            codeLine: 4,
+            pass: `${i}/${n - 1}`,
+            logTitle: `Bandingkan Key dengan ${arrCopy[j]}`,
+            logDesc: `Karena ${arrCopy[j]} > ${key}, geser ${arrCopy[j]} satu posisi ke kanan.`
+          });
+
+          arrCopy[j + 1] = arrCopy[j];
+          executionSteps.push({
+            type: 'swap',
+            indices: [j, j + 1],
+            arr: [...arrCopy],
+            codeLine: 5,
+            pass: `${i}/${n - 1}`,
+            logTitle: `Geser Nilai ke Kanan`,
+            logDesc: `Indeks [${j + 1}] kini diisi oleh nilai ${arrCopy[j]}.`
+          });
+          j--;
+        }
+        arrCopy[j + 1] = key;
+        executionSteps.push({
+          type: 'highlight',
+          indices: [j + 1],
+          arr: [...arrCopy],
+          codeLine: 8,
+          pass: `${i}/${n - 1}`,
+          logTitle: `Sisipkan Key ${key}`,
+          logDesc: `Tempatkan key (${key}) pada celah slot indeks [${j + 1}].`
+        });
+      }
+    } else if (currentAlgo === 'quick') {
+      function partition(low, high) {
+        let pivot = arrCopy[high];
+        executionSteps.push({
+          type: 'highlight',
+          indices: [high],
+          arr: [...arrCopy],
+          codeLine: 2,
+          pass: `Partisi [${low}-${high}]`,
+          logTitle: `Pilih Pivot: ${pivot}`,
+          logDesc: `Gunakan elemen terakhir indeks [${high}] bernilai ${pivot} sebagai pembagi partisi.`
+        });
+
+        let i = low - 1;
+        for (let j = low; j < high; j++) {
+          executionSteps.push({
+            type: 'compare',
+            indices: [j, high],
+            arr: [...arrCopy],
+            codeLine: 2,
+            pass: `Partisi [${low}-${high}]`,
+            logTitle: `Bandingkan ${arrCopy[j]} vs Pivot (${pivot})`,
+            logDesc: `Periksa apakah elemen ${arrCopy[j]} lebih kecil atau sama dengan pivot.`
+          });
+
+          if (arrCopy[j] <= pivot) {
+            i++;
+            const temp = arrCopy[i];
+            arrCopy[i] = arrCopy[j];
+            arrCopy[j] = temp;
+            executionSteps.push({
+              type: 'swap',
+              indices: [i, j],
+              arr: [...arrCopy],
+              codeLine: 2,
+              pass: `Partisi [${low}-${high}]`,
+              logTitle: `Tukar Elemen ke Zona Kiri`,
+              logDesc: `Pindahkan ${arrCopy[i]} ke batas zona kiri pivot.`
+            });
+          }
+        }
+        const temp = arrCopy[i + 1];
+        arrCopy[i + 1] = arrCopy[high];
+        arrCopy[high] = temp;
+        executionSteps.push({
+          type: 'swap',
+          indices: [i + 1, high],
+          arr: [...arrCopy],
+          codeLine: 2,
+          pass: `Pivot Fix`,
+          logTitle: `Tempatkan Pivot di Posisi Akhir`,
+          logDesc: `Pivot ${pivot} ditaruh pada indeks [${i + 1}]. Elemen di kiri pasti <= pivot, di kanan >= pivot.`
+        });
+        return i + 1;
+      }
+
+      function qSort(low, high) {
+        if (low < high) {
+          let pi = partition(low, high);
+          qSort(low, pi - 1);
+          qSort(pi + 1, high);
+        }
+      }
+      qSort(0, n - 1);
+    } else if (currentAlgo === 'merge') {
+      function merge(l, m, r) {
+        let n1 = m - l + 1;
+        let n2 = r - m;
+        let L = [];
+        let R = [];
+        for (let i = 0; i < n1; i++) L.push(arrCopy[l + i]);
+        for (let j = 0; j < n2; j++) R.push(arrCopy[m + 1 + j]);
+
+        let i = 0, j = 0, k = l;
+        while (i < n1 && j < n2) {
+          executionSteps.push({
+            type: 'compare',
+            indices: [k, m + 1 + j],
+            arr: [...arrCopy],
+            codeLine: 5,
+            pass: `Merge [${l}-${r}]`,
+            logTitle: `Gabungkan Dua Bagian Sub-Array`,
+            logDesc: `Bandingkan ${L[i]} (kiri) dengan ${R[j]} (kanan).`
+          });
+          if (L[i] <= R[j]) {
+            arrCopy[k] = L[i];
+            i++;
+          } else {
+            arrCopy[k] = R[j];
+            j++;
+          }
+          executionSteps.push({
+            type: 'swap',
+            indices: [k],
+            arr: [...arrCopy],
+            codeLine: 5,
+            pass: `Merge [${l}-${r}]`,
+            logTitle: `Salin Elemen Terkecil ke Indeks [${k}]`,
+            logDesc: `Nilai ${arrCopy[k]} ditulis ke array utama.`
+          });
+          k++;
+        }
+        while (i < n1) {
+          arrCopy[k] = L[i];
+          executionSteps.push({
+            type: 'swap',
+            indices: [k],
+            arr: [...arrCopy],
+            codeLine: 5,
+            pass: `Sisa Kiri`,
+            logTitle: `Salin Sisa Kiri ke [${k}]`,
+            logDesc: `Salin ${L[i]} ke posisi ${k}.`
+          });
+          i++; k++;
+        }
+        while (j < n2) {
+          arrCopy[k] = R[j];
+          executionSteps.push({
+            type: 'swap',
+            indices: [k],
+            arr: [...arrCopy],
+            codeLine: 5,
+            pass: `Sisa Kanan`,
+            logTitle: `Salin Sisa Kanan ke [${k}]`,
+            logDesc: `Salin ${R[j]} ke posisi ${k}.`
+          });
+          j++; k++;
+        }
+      }
+
+      function mSort(l, r) {
+        if (l < r) {
+          let m = Math.floor((l + r) / 2);
+          mSort(l, m);
+          mSort(m + 1, r);
+          merge(l, m, r);
+        }
+      }
+      mSort(0, n - 1);
+    }
+
+    // Step finish: mark all sorted
+    executionSteps.push({
+      type: 'complete',
+      indices: [],
+      arr: [...arrCopy],
+      codeLine: null,
+      pass: 'Selesai 100%',
+      logTitle: `Pengurutan Berhasil Selesai!`,
+      logDesc: `Seluruh elemen berhasil diurutkan secara ascending (dari terkecil ke terbesar).`
+    });
+  }
+
+  // Execute Step by Step
+  let sortedStateIndices = new Set();
+
+  function applyStep(step) {
+    if (!step) return;
+    array = [...step.arr];
+
+    const stateColors = {};
+    const highlights = {};
+
+    sortedStateIndices.forEach(idx => stateColors[idx] = 'sorted');
+
+    if (step.type === 'compare') {
+      comparisons++;
+      compareCountEl.textContent = comparisons;
+      if (step.indices) {
+        step.indices.forEach(idx => {
+          stateColors[idx] = 'compare';
+          highlights[idx] = true;
+        });
+        currentPointersEl.textContent = `i: ${step.indices[0]} | j: ${step.indices[1] !== undefined ? step.indices[1] : '-'}`;
+      }
+      playBeep(320);
+    } else if (step.type === 'swap') {
+      swaps++;
+      swapCountEl.textContent = swaps;
+      if (step.indices) {
+        step.indices.forEach(idx => {
+          stateColors[idx] = 'swap';
+          highlights[idx] = true;
+        });
+      }
+      playBeep(640);
+    } else if (step.type === 'markSorted') {
+      if (step.sortedIndex !== undefined) {
+        sortedStateIndices.add(step.sortedIndex);
+        stateColors[step.sortedIndex] = 'sorted';
+      }
+      playBeep(880);
+    } else if (step.type === 'highlight') {
+      if (step.indices) {
+        step.indices.forEach(idx => {
+          stateColors[idx] = 'pivot';
+          highlights[idx] = true;
+        });
+      }
+      playBeep(520);
+    } else if (step.type === 'complete') {
+      for (let i = 0; i < array.length; i++) stateColors[i] = 'sorted';
+      currentPointersEl.textContent = 'Status: Terminated (Clean)';
+      playBeep(980);
+    }
+
+    renderBars(highlights, stateColors);
+    highlightLine(step.codeLine);
+
+    logHeadlineEl.textContent = step.logTitle || 'Iterasi Algoritma';
+    logDetailEl.textContent = step.logDesc || '-';
+    activePassIndicator.textContent = `Status: ${step.pass || '-'}`;
+  }
+
+  function play() {
+    if (isRunning) return;
+    if (executionSteps.length === 0 || currentStepIdx >= executionSteps.length) {
+      resetState(false);
+      generateSteps();
+      currentStepIdx = 0;
+    }
+    isRunning = true;
+    isPaused = false;
+    document.getElementById('startSortBtn').classList.add('opacity-75');
+
+    function runLoop() {
+      if (!isRunning) return;
+      if (currentStepIdx < executionSteps.length) {
+        applyStep(executionSteps[currentStepIdx]);
+        currentStepIdx++;
+        const delay = 620 - parseInt(speedSlider.value, 10);
+        timerId = setTimeout(runLoop, Math.max(30, delay));
+      } else {
+        stopSort();
+      }
+    }
+    runLoop();
+  }
+
+  function pause() {
+    isRunning = false;
+    isPaused = true;
+    clearTimeout(timerId);
+    document.getElementById('startSortBtn').classList.remove('opacity-75');
+    logHeadlineEl.textContent = "Eksekusi Dijeda (Paused)";
+    logDetailEl.textContent = "Gunakan tombol 'Langkah' untuk step debugging manual atau 'Mulai' untuk melanjutkan.";
+  }
+
+  function stepForward() {
+    pause();
+    if (executionSteps.length === 0 || currentStepIdx >= executionSteps.length) {
+      resetState(false);
+      generateSteps();
+      currentStepIdx = 0;
+    }
+    if (currentStepIdx < executionSteps.length) {
+      applyStep(executionSteps[currentStepIdx]);
+      currentStepIdx++;
+    }
+  }
+
+  function stopSort() {
+    isRunning = false;
+    isPaused = false;
+    clearTimeout(timerId);
+    document.getElementById('startSortBtn').classList.remove('opacity-75');
+  }
+
+  function resetState(regenerateArray = false) {
+    stopSort();
+    comparisons = 0;
+    swaps = 0;
+    currentStepIdx = 0;
+    executionSteps = [];
+    sortedStateIndices.clear();
+    compareCountEl.textContent = '0';
+    swapCountEl.textContent = '0';
+    currentPointersEl.textContent = 'i: null | j: null';
+    activePassIndicator.textContent = 'Pass: 0/0';
+    highlightLine(null);
+
+    if (regenerateArray) {
+      const n = parseInt(sizeSlider.value, 10);
+      array = Array.from({ length: n }, () => Math.floor(Math.random() * 85) + 12);
+      customArrayInput.value = array.join(', ');
+    }
+    renderBars();
+    logHeadlineEl.textContent = "State Di-Reset";
+    logDetailEl.textContent = `Algoritma: ${currentAlgo.toUpperCase()} siap dieksekusi dengan dataset ${array.length} elemen.`;
+  }
+
+  // Algorithm Switching
+  function setAlgorithm(algoKey) {
+    currentAlgo = algoKey;
+    activeAlgoBadge.textContent = `${algoKey.toUpperCase()} SORT`;
+
+    // Highlight card
+    document.querySelectorAll('.algo-card').forEach(card => {
+      const isSelected = card.dataset.algo === algoKey;
+      card.classList.toggle('bg-surface-container-high', isSelected);
+      card.classList.toggle('bg-surface-container-low', !isSelected);
+      card.classList.toggle('shadow-md', isSelected);
+      const icon = card.querySelector('.check-icon');
+      if (icon) icon.style.opacity = isSelected ? '1' : '0';
+    });
+
+    renderPseudocode(algoKey);
+    resetState(false);
+  }
+
+  // Event Listeners
+  document.querySelectorAll('.algo-card').forEach(card => {
+    card.addEventListener('click', () => {
+      setAlgorithm(card.dataset.algo);
+    });
+  });
+
+  document.getElementById('startSortBtn').addEventListener('click', play);
+  document.getElementById('pauseSortBtn').addEventListener('click', pause);
+  document.getElementById('stepSortBtn').addEventListener('click', stepForward);
+  document.getElementById('resetSortBtn').addEventListener('click', () => resetState(false));
+
+  document.getElementById('shuffleBtn').addEventListener('click', () => {
+    resetState(true);
+  });
+
+  document.getElementById('reverseBtn').addEventListener('click', () => {
+    array.sort((a, b) => b - a);
+    customArrayInput.value = array.join(', ');
+    resetState(false);
+    logHeadlineEl.textContent = "Data Dibalik (Worst-Case)";
+    logDetailEl.textContent = "Array sekarang dalam urutan terbalik sempurna (Descending), kondisi paling menguras komparasi.";
+  });
+
+  // Size slider
+  sizeSlider.addEventListener('input', (e) => {
+    sizeValueEl.textContent = e.target.value;
+    resetState(true);
+  });
+
+  // Speed slider
+  speedSlider.addEventListener('input', (e) => {
+    const val = parseInt(e.target.value, 10);
+    let label = 'Normal';
+    if (val < 150) label = 'Lambat (Edukasi)';
+    else if (val > 450) label = 'Turbo';
+    else label = 'Sedang';
+    document.getElementById('speedValue').textContent = label;
+  });
+
+  // Custom Array Input
+  document.getElementById('applyCustomBtn').addEventListener('click', () => {
+    const raw = customArrayInput.value;
+    const parts = raw.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
+    if (parts.length >= 3) {
+      array = parts.slice(0, 30);
+      sizeSlider.value = array.length;
+      sizeValueEl.textContent = array.length;
+      document.getElementById('inputValidationMsg').textContent = "Array Diterapkan!";
+      document.getElementById('inputValidationMsg').className = "font-label-mono text-label-mono text-secondary";
+      resetState(false);
+    } else {
+      document.getElementById('inputValidationMsg').textContent = "Minimal 3 angka valid!";
+      document.getElementById('inputValidationMsg').className = "font-label-mono text-label-mono text-error";
+    }
+  });
+
+  // Toggle Audio
+  const toggleAudioBtn = document.getElementById('toggleAudioBtn');
+  toggleAudioBtn.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    toggleAudioBtn.classList.toggle('text-primary', soundEnabled);
+    toggleAudioBtn.classList.toggle('text-on-surface-variant', !soundEnabled);
+  });
+
+  // Initial Boot
+  renderPseudocode(currentAlgo);
+  renderBars();
+})();

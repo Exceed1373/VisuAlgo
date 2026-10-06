@@ -1,30 +1,379 @@
 <!DOCTYPE html>
-<html lang="id">
+
+<html class="dark" lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Beranda | VisuAlgo PTIK</title>
-<meta name="description" content="Media pembelajaran interaktif visualisasi algoritma Sorting dan Searching untuk mahasiswa PTIK.">
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-<header class="navbar"><div class="container nav-inner">
-  <a class="brand" href="index.html">VisuAlgo <span>PTIK</span></a>
-  <nav id="menu" aria-label="Navigasi utama">
-    <a href="index.html">Beranda</a><a href="sorting.html">Sorting</a><a href="searching.html">Searching</a><a href="petunjuk.html">Petunjuk</a>
-  </nav>
-</div></header>
-<main class="container">
-<section class="hero">
-  <h1>Pelajari Sorting dan Searching lewat animasi</h1>
-  <p>Amati setiap langkah algoritma, mulai dari perbandingan sampai pertukaran data, lalu coba dengan data milikmu sendiri.</p>
-</section>
-<div class="grid">
-  <a class="card" href="sorting.html"><h2>Sorting</h2><p>5 algoritma: Bubble, Selection, Insertion, Quick, dan Merge Sort.</p></a>
-  <a class="card" href="searching.html"><h2>Searching</h2><p>2 algoritma: Linear Search dan Binary Search.</p></a>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="shell-type" content="web_standard" />
+  <title>VisuAlgo PTIK - Beranda</title>
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <!-- Gaya -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Script -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/main.js"></script>
+</head><body class="bg-background text-on-surface font-body-md text-body-md min-h-screen selection:bg-primary-container selection:text-on-primary-container">
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_12px_32px_-4px_rgba(6,182,212,0.08),0_4px_12px_rgba(0,0,0,0.5)]"><div class="h-16 w-full px-gutter md:px-margin flex items-center justify-between"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm group" data-path="beranda" href="index.html"><div class="flex items-center justify-center w-9 h-9 rounded-lg bg-surface-container-high shadow-[0_0_15px_rgba(76,215,246,0.25)]"><span class="material-symbols-outlined text-primary text-[20px]">terminal</span></div><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-bold">VisuAlgo</span><span class="font-label-badge text-label-badge px-space-xs py-0.5 rounded bg-primary-container/20 text-primary shadow-[0_0_10px_rgba(6,182,212,0.4)]">PTIK</span></div></div></a></div>
+<nav class="hidden md:flex items-center gap-space-xs p-1 rounded-xl bg-surface-container-low" data-active-classes="bg-surface-container-high text-primary font-semibold rounded-lg"><a aria-current="page" class="px-space-md py-1.5 transition-all bg-surface-container-high text-primary font-semibold rounded-lg" data-path="beranda" href="index.html">Beranda</a><a class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="sorting" href="sorting.html">Sorting</a><a class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="searching" href="searching.html">Searching</a><a class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="petunjuk" href="petunjuk.html">Petunjuk</a>
+</nav><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(78,222,163,0.8)]"></span><span class="font-label-mono text-label-mono text-on-surface-variant">v2.0 ADDIE</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div>
+</header>
+<main class="w-full pt-16 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Interactive Ambient Backdrop & Hero Section -->
+<section class="relative w-full overflow-hidden px-gutter md:px-margin py-space-xl lg:py-28">
+<!-- Ambient Radial Glows -->
+<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute top-1/3 -right-32 w-[420px] h-[420px] bg-secondary/10 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
+<!-- Badge Modern -->
+<div class="inline-flex items-center gap-space-sm px-space-md py-1.5 rounded-full bg-surface-container-high/80 backdrop-blur-md shadow-md mb-space-lg group">
+<span class="flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-primary">Platform Pembelajaran PTIK</span>
+<span class="text-outline-variant font-label-mono text-label-mono">•</span>
+<span class="font-label-badge text-label-badge text-on-surface-variant group-hover:text-secondary transition-colors">Model ADDIE</span>
 </div>
-<p class="center"><a class="btn" href="sorting.html">Mulai belajar</a></p>
+<!-- Headline Kuat -->
+<h1 class="font-display-hero text-display-hero max-w-4xl text-on-surface tracking-tight font-extrabold mb-space-md">
+        Kuasai Algoritma <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-fixed-dim to-secondary">Sorting &amp; Searching</span> Lewat Visualisasi Interaktif
+      </h1>
+<!-- Deskripsi Jelas -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-space-xl">
+        Amati secara visual setiap perbandingan, pertukaran indeks, dan partisi data secara real-time. Dilengkapi analisis kompleksitas Big-O dan simulasi interaktif untuk mahasiswa PTIK.
+      </p>
+<!-- CTA Buttons -->
+<div class="flex flex-wrap items-center justify-center gap-space-md w-full sm:w-auto">
+<a class="inline-flex items-center justify-center gap-space-sm px-space-lg py-3.5 rounded-xl bg-gradient-to-r from-primary-container to-secondary-container text-on-primary font-headline-sm text-headline-sm shadow-[0_0_24px_rgba(6,182,212,0.45)] hover:shadow-[0_0_36px_rgba(78,222,163,0.55)] hover:scale-[1.02] active:scale-[0.98] transition-all" data-path="sorting" href="sorting.html">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+<span>Mulai Belajar Sorting</span>
+</a>
+<a class="inline-flex items-center justify-center gap-space-sm px-space-lg py-3.5 rounded-xl bg-surface-container-high/70 hover:bg-surface-container-highest text-on-surface font-headline-sm text-headline-sm backdrop-blur-md shadow-md hover:text-primary transition-all" data-path="searching" href="searching.html">
+<span class="material-symbols-outlined text-[20px]">manage_search</span>
+<span>Jelajahi Searching</span>
+</a>
+</div>
+<!-- Live Micro-Simulation Sandbox Ticker -->
+<div class="mt-16 w-full max-w-3xl p-space-md rounded-2xl bg-surface-container-low/90 backdrop-blur-xl shadow-xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between px-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="w-3 h-3 rounded-full bg-error"></span>
+<span class="w-3 h-3 rounded-full bg-tertiary"></span>
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="font-label-mono text-label-mono text-on-surface-variant ml-space-xs">runtime_engine.ts</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-badge text-label-badge uppercase px-space-xs py-0.5 rounded bg-surface-container-high text-primary">Live Trace</span>
+<span class="font-label-mono text-label-mono text-secondary" id="step-counter">Step 14/28</span>
+</div>
+</div>
+<!-- Animated Bar Visualizer Preview Strip -->
+<div class="h-28 w-full bg-surface-container-lowest/80 rounded-xl px-4 flex items-end justify-between gap-1.5 pt-3 pb-2" id="preview-bars-container">
+<!-- Bars are generated and animated via inline script -->
+<div class="flex-1 bg-surface-variant rounded-t transition-all duration-300" style="height: 35%;"></div>
+<div class="flex-1 bg-surface-variant rounded-t transition-all duration-300" style="height: 60%;"></div>
+<div class="flex-1 bg-tertiary rounded-t transition-all duration-300 shadow-[0_0_12px_rgba(255,185,95,0.6)]" style="height: 85%;"></div>
+<div class="flex-1 bg-primary rounded-t transition-all duration-300 shadow-[0_0_12px_rgba(76,215,246,0.6)]" style="height: 45%;"></div>
+<div class="flex-1 bg-surface-variant rounded-t transition-all duration-300" style="height: 20%;"></div>
+<div class="flex-1 bg-secondary rounded-t transition-all duration-300 shadow-[0_0_12px_rgba(78,222,163,0.5)]" style="height: 75%;"></div>
+<div class="flex-1 bg-secondary rounded-t transition-all duration-300 shadow-[0_0_12px_rgba(78,222,163,0.5)]" style="height: 90%;"></div>
+<div class="flex-1 bg-surface-variant rounded-t transition-all duration-300" style="height: 40%;"></div>
+<div class="flex-1 bg-surface-variant rounded-t transition-all duration-300" style="height: 55%;"></div>
+<div class="flex-1 bg-surface-variant rounded-t transition-all duration-300" style="height: 68%;"></div>
+</div>
+<!-- Pseudocode line sync mini bar -->
+<div class="flex items-center justify-between text-left font-code-block text-code-block px-space-xs py-1 rounded bg-surface-container-high/60">
+<div class="flex items-center gap-space-sm truncate">
+<span class="text-outline font-label-mono text-label-mono">L08</span>
+<span class="text-primary font-medium">if</span>
+<span class="text-on-surface">arr[j] &gt; arr[j+1]: swap(arr, j, j+1)</span>
+</div>
+<span class="font-label-badge text-label-badge px-space-xs rounded bg-tertiary/20 text-tertiary whitespace-nowrap">CMP / SWAP</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Editorial Split / Visual Photo Intermezzo -->
+<section class="w-full px-gutter md:px-margin py-space-lg">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Media Context 1 -->
+<div class="relative overflow-hidden rounded-2xl h-44 bg-surface-container-low shadow-md group">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="A modern university computer science laboratory with glowing cyan ambient workstations, students analyzing algorithm visualization graphs on displays, architectural sleek tech aesthetics, ultra realistic cinematic lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBOMlPtSggss7Lowd-GjD1KgWrBbkCNafTXoLqyq3NSHr3LoFI8ybk9nITvndEnVU1Q9mioDUGj2_RoYmEmyOvuHkvlhorKuFN845TD-DMeGqF1ERC35SV6-By-cCZ5xWMsJ1T2dKMPkPNeLcNaMZbH3gRX1NCJaRMHmpYD-uunPIkc3WGKZJZikwl7pD9UrhaGh6wJk0PL-J2iw30DH65Ert4Yh6dQCM9akyb2UmathFuCjNz1RDjyZw')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/60 to-transparent p-space-md flex flex-col justify-end">
+<span class="font-label-mono text-label-mono text-primary uppercase">Lab Praktikum PTIK</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Struktur Data &amp; Algoritma</span>
+</div>
+</div>
+<!-- Media Context 2 -->
+<div class="relative overflow-hidden rounded-2xl h-44 bg-surface-container-low shadow-md group">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Close up view of futuristic developer IDE monitor displaying colorful abstract binary search tree nodes, execution memory registers, illuminated emerald and cyan code matrices in dark room." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCJH_cpReu6BGKtv-J5yuFB7y4UtHqa1tbMcmOO9Or5l9GYQOCCKb1GBp428fgOh-GvQqFJByQD_6Pvg93iUCUiaOmh_6F1tS7aADpauVboWfFzTmhM3ZYo7FufY3P4g0Ai4qkaNkcrRpBuZWaiDPTx8IaxMnK3631nsTjxaAeej0DCV90BvB8v2OwPtpJ6UG9Bv37on2cD0uo37YWJbX8P54aPmzlN-4utfWb2DYXXwo908RGVMw1vtg')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/60 to-transparent p-space-md flex flex-col justify-end">
+<span class="font-label-mono text-label-mono text-secondary uppercase">Metodologi Riset ADDIE</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Validasi Ahli &amp; Efektivitas</span>
+</div>
+</div>
+<!-- Media Context 3 -->
+<div class="relative overflow-hidden rounded-2xl h-44 bg-surface-container-low shadow-md group">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Abstract glowing network nodes representing big-O time complexity curves, amber and electric cyan geometric mathematical graph ribbons floating in deep space minimalism." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC_Thm9Bs4lJ2L0-NdnRvYrfktzWp3DK_7QTeqAA3sH7l-TusR-lTjB8-wyTB0bbeDfAXmAb9GeuA4QjtMlAeJ0a1EE69IGxjDWP7iWDiSN1PhkdKy707bDe5ASTpSL1kR-gz6kxvZ2riZHRFRFze4R75VR288z5gvLvievVn5sKTyqWqsEido7VGeS8erCQXHYJMgqYJb7C2B3GmbYcufd5KPOPr2sR8YJj-QcrLZhYjCAMzIbp28_vg')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/60 to-transparent p-space-md flex flex-col justify-end">
+<span class="font-label-mono text-label-mono text-tertiary uppercase">Analisis Asimptotik</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Komparasi Ruang &amp; Waktu</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Fitur Utama / Materi Cards Grid (2 Kartu Unggulan) -->
+<section class="w-full px-gutter md:px-margin py-space-xl">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-primary">Kurikulum Inti</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold mt-1">Dua Modul Inti Interaktif</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+          Pilih kategori algoritma untuk masuk ke canvas eksekusi, atur delay playback, dan amati perubahan memori per siklus iterasi.
+        </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg">
+<!-- Kartu 1: Sorting Algorithms -->
+<div class="group relative rounded-2xl bg-surface-container-low/85 backdrop-blur-xl p-space-lg shadow-xl hover:shadow-[0_16px_40px_rgba(6,182,212,0.15)] transition-all flex flex-col justify-between overflow-hidden">
+<div class="absolute -right-20 -top-20 w-52 h-52 bg-primary/10 rounded-full blur-3xl pointer-events-none group-hover:bg-primary/20 transition-colors"></div>
+<div>
+<!-- Header Kartu -->
+<div class="flex items-center justify-between gap-space-md mb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[28px]">bar_chart</span>
+</div>
+<div>
+<span class="font-label-mono text-label-mono text-primary uppercase">Kategori Modul 01</span>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">Sorting Algorithms</h3>
+</div>
+</div>
+<div class="px-space-sm py-1 rounded-full bg-primary/15 text-primary font-label-mono text-label-mono whitespace-nowrap">
+                O(n log n) ~ O(n²)
+              </div>
+</div>
+<!-- Deskripsi -->
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+              Pelajari 5 algoritma pengurutan esensial: <strong class="text-on-surface">Bubble Sort, Selection Sort, Insertion Sort, Quick Sort,</strong> dan <strong class="text-on-surface">Merge Sort</strong> dengan pelacakan pointer pertukaran indeks live.
+            </p>
+<!-- Visual Bar Graphic Interactive Element -->
+<div class="bg-surface-container-lowest/80 rounded-xl p-space-md mb-space-md">
+<div class="flex items-center justify-between text-label-mono font-label-mono text-on-surface-variant mb-2">
+<span>Partisi Pivot &amp; Swap</span>
+<span class="text-secondary font-semibold">5 Algoritma Siap Dites</span>
+</div>
+<div class="h-20 flex items-end gap-1.5">
+<div class="w-1/8 flex-1 bg-secondary rounded-t shadow-[0_0_8px_rgba(78,222,163,0.4)]" style="height: 25%"></div>
+<div class="w-1/8 flex-1 bg-secondary rounded-t shadow-[0_0_8px_rgba(78,222,163,0.4)]" style="height: 40%"></div>
+<div class="w-1/8 flex-1 bg-secondary rounded-t shadow-[0_0_8px_rgba(78,222,163,0.4)]" style="height: 55%"></div>
+<div class="w-1/8 flex-1 bg-primary rounded-t shadow-[0_0_10px_rgba(76,215,246,0.6)]" style="height: 70%"></div>
+<div class="w-1/8 flex-1 bg-tertiary rounded-t shadow-[0_0_10px_rgba(255,185,95,0.6)]" style="height: 85%"></div>
+<div class="w-1/8 flex-1 bg-surface-variant rounded-t" style="height: 60%"></div>
+<div class="w-1/8 flex-1 bg-surface-variant rounded-t" style="height: 45%"></div>
+<div class="w-1/8 flex-1 bg-surface-variant rounded-t" style="height: 95%"></div>
+</div>
+<div class="flex justify-between mt-2 pt-2 bg-surface-container-high/40 rounded px-2">
+<span class="font-label-badge text-label-badge text-secondary">QuickSort Partition</span>
+<span class="font-label-badge text-label-badge text-primary">Active Pivot: [4]</span>
+</div>
+</div>
+<!-- Algorithm List Chips -->
+<div class="flex flex-wrap gap-1.5 mb-space-lg">
+<span class="px-space-xs py-1 rounded bg-surface-container-high text-on-surface font-label-mono text-label-mono">Bubble</span>
+<span class="px-space-xs py-1 rounded bg-surface-container-high text-on-surface font-label-mono text-label-mono">Selection</span>
+<span class="px-space-xs py-1 rounded bg-surface-container-high text-on-surface font-label-mono text-label-mono">Insertion</span>
+<span class="px-space-xs py-1 rounded bg-surface-container-high text-on-surface font-label-mono text-label-mono">Quick Sort</span>
+<span class="px-space-xs py-1 rounded bg-surface-container-high text-on-surface font-label-mono text-label-mono">Merge Sort</span>
+</div>
+</div>
+<!-- Link / Action Button -->
+<a class="w-full inline-flex items-center justify-between px-space-md py-3 rounded-xl bg-surface-container-high group-hover:bg-primary-container text-on-surface group-hover:text-on-primary font-headline-sm text-headline-sm transition-all shadow-md" data-path="sorting" href="sorting.html">
+<span>Buka Visualisasi Sorting</span>
+<span class="material-symbols-outlined transition-transform group-hover:translate-x-1.5">arrow_forward</span>
+</a>
+</div>
+<!-- Kartu 2: Searching Algorithms -->
+<div class="group relative rounded-2xl bg-surface-container-low/85 backdrop-blur-xl p-space-lg shadow-xl hover:shadow-[0_16px_40px_rgba(78,222,163,0.15)] transition-all flex flex-col justify-between overflow-hidden">
+<div class="absolute -right-20 -top-20 w-52 h-52 bg-secondary/10 rounded-full blur-3xl pointer-events-none group-hover:bg-secondary/20 transition-colors"></div>
+<div>
+<!-- Header Kartu -->
+<div class="flex items-center justify-between gap-space-md mb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-secondary shadow-sm">
+<span class="material-symbols-outlined text-[28px]">search_insights</span>
+</div>
+<div>
+<span class="font-label-mono text-label-mono text-secondary uppercase">Kategori Modul 02</span>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">Searching Algorithms</h3>
+</div>
+</div>
+<div class="px-space-sm py-1 rounded-full bg-secondary/15 text-secondary font-label-mono text-label-mono whitespace-nowrap">
+                O(1) ~ O(log n)
+              </div>
+</div>
+<!-- Deskripsi -->
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+              Dua metode pencarian fundamental: <strong class="text-on-surface">Linear Search</strong> dan <strong class="text-on-surface">Binary Search</strong> dilengkapi radar penanda posisi pointer <span class="text-primary font-medium">Low</span>, <span class="text-tertiary font-medium">Mid</span>, dan <span class="text-secondary font-medium">High</span>.
+            </p>
+<!-- Visual Pointer Simulation Element -->
+<div class="bg-surface-container-lowest/80 rounded-xl p-space-md mb-space-md">
+<div class="flex items-center justify-between text-label-mono font-label-mono text-on-surface-variant mb-3">
+<span>Array Index Matrix &amp; Pointers</span>
+<span class="text-primary font-semibold">Target: 42</span>
+</div>
+<div class="grid grid-cols-7 gap-1.5 text-center font-label-mono text-label-mono">
+<div class="p-2 rounded bg-surface-container-high text-on-surface-variant">12<br/><span class="text-[9px] text-outline">L[0]</span></div>
+<div class="p-2 rounded bg-surface-container-high text-on-surface-variant opacity-40">18<br/><span class="text-[9px] text-outline">[1]</span></div>
+<div class="p-2 rounded bg-surface-container-high text-on-surface-variant opacity-40">24<br/><span class="text-[9px] text-outline">[2]</span></div>
+<div class="p-2 rounded bg-primary text-on-primary font-bold shadow-[0_0_12px_rgba(76,215,246,0.6)]">42<br/><span class="text-[9px]">MID</span></div>
+<div class="p-2 rounded bg-surface-container-high text-on-surface-variant">55<br/><span class="text-[9px] text-outline">[4]</span></div>
+<div class="p-2 rounded bg-surface-container-high text-on-surface-variant">67<br/><span class="text-[9px] text-outline">[5]</span></div>
+<div class="p-2 rounded bg-secondary text-on-secondary font-bold shadow-[0_0_12px_rgba(78,222,163,0.5)]">89<br/><span class="text-[9px]">H[6]</span></div>
+</div>
+<div class="flex justify-between mt-3 pt-2 bg-surface-container-high/40 rounded px-2">
+<span class="font-label-badge text-label-badge text-secondary">Target Found at Index [3]</span>
+<span class="font-label-badge text-label-badge text-tertiary">Comparisons: 2x</span>
+</div>
+</div>
+<!-- Algorithm List Chips -->
+<div class="flex flex-wrap gap-1.5 mb-space-lg">
+<span class="px-space-xs py-1 rounded bg-surface-container-high text-on-surface font-label-mono text-label-mono">Linear Search (Sequential)</span>
+<span class="px-space-xs py-1 rounded bg-surface-container-high text-on-surface font-label-mono text-label-mono">Binary Search (Divide &amp; Conquer)</span>
+</div>
+</div>
+<!-- Link / Action Button -->
+<a class="w-full inline-flex items-center justify-between px-space-md py-3 rounded-xl bg-surface-container-high group-hover:bg-secondary-container text-on-surface group-hover:text-on-secondary font-headline-sm text-headline-sm transition-all shadow-md" data-path="searching" href="searching.html">
+<span>Buka Visualisasi Searching</span>
+<span class="material-symbols-outlined transition-transform group-hover:translate-x-1.5">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Highlight Section: Tiga Pilar Keunggulan & Quick Stats -->
+<section class="w-full px-gutter md:px-margin py-space-xl bg-surface-container-low/50">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-xl">
+<!-- Section Header -->
+<div class="text-center max-w-2xl mx-auto">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-secondary">Pedagogi Berbasis Visual</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold mt-1">Dirancang untuk Efektivitas Pembelajaran</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs">
+          Mengintegrasikan prinsip media interaktif ADDIE (Analysis, Design, Development, Implementation, Evaluation) untuk mahasiswa teknik komputer.
+        </p>
+</div>
+<!-- Tiga Pilar Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Pilar 1 -->
+<div class="p-space-lg rounded-2xl bg-surface-container/90 backdrop-blur-sm shadow-md flex flex-col gap-space-md hover:translate-y-[-4px] transition-transform">
+<div class="w-12 h-12 rounded-xl bg-primary/15 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">slow_motion_video</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-xs">Step-by-Step Execution</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Kendali penuh atas jalannya eksekusi kode. Jalankan visualisasi langkah demi langkah (Step Forward / Backward), pause kapan saja, atau sesuaikan timeline scrubber.
+            </p>
+</div>
+<div class="mt-auto pt-space-xs flex items-center gap-space-xs font-label-mono text-label-mono text-primary">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Kontrol Granular Real-time</span>
+</div>
+</div>
+<!-- Pilar 2 -->
+<div class="p-space-lg rounded-2xl bg-surface-container/90 backdrop-blur-sm shadow-md flex flex-col gap-space-md hover:translate-y-[-4px] transition-transform">
+<div class="w-12 h-12 rounded-xl bg-secondary/15 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">tune</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-xs">Custom Input Dataset</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Uji ketahanan algoritma dengan data acak, susunan terbalik (worst case), data hampir urut (best case), atau ketik langsung larik angka kustom Anda sendiri.
+            </p>
+</div>
+<div class="mt-auto pt-space-xs flex items-center gap-space-xs font-label-mono text-label-mono text-secondary">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Simulator Input Dinamis</span>
+</div>
+</div>
+<!-- Pilar 3 -->
+<div class="p-space-lg rounded-2xl bg-surface-container/90 backdrop-blur-sm shadow-md flex flex-col gap-space-md hover:translate-y-[-4px] transition-transform">
+<div class="w-12 h-12 rounded-xl bg-tertiary/15 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">query_stats</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-xs">Analisis Kompleksitas</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Tabel komparasi komprehensif notasi Big-O untuk skenario Terbaik (Best), Rata-rata (Average), dan Terburuk (Worst) serta penggunaan memori Space Complexity.
+            </p>
+</div>
+<div class="mt-auto pt-space-xs flex items-center gap-space-xs font-label-mono text-label-mono text-tertiary">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Matriks Asimptotik Formal</span>
+</div>
+</div>
+</div>
+<!-- Statistik Ringkas Band -->
+<div class="rounded-2xl bg-gradient-to-r from-surface-container-high via-surface-container to-surface-container-high p-space-lg shadow-lg">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-lg divide-y sm:divide-y-0 sm:divide-x divide-outline-variant/30">
+<!-- Stat 1 -->
+<div class="flex flex-col items-center text-center p-space-xs">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display-hero text-display-hero font-extrabold text-primary">7</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">Algoritma</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Sorting &amp; Searching Pokok Kurikulum</p>
+</div>
+<!-- Stat 2 -->
+<div class="flex flex-col items-center text-center p-space-xs">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display-hero text-display-hero font-extrabold text-secondary">100%</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">Interaktif</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Simulasi Berjalan di Peramban Klien</p>
+</div>
+<!-- Stat 3 -->
+<div class="flex flex-col items-center text-center p-space-xs">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display-hero text-display-hero font-extrabold text-tertiary">0</span>
+<span class="font-headline-sm text-headline-sm text-tertiary font-bold">Instalasi</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Cukup Browser Web Modern Standar</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Start Banner -->
+<section class="w-full px-gutter md:px-margin py-space-xl">
+<div class="max-w-7xl mx-auto rounded-3xl bg-gradient-to-br from-surface-container to-surface-container-high p-space-lg md:p-space-xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-space-lg">
+<div class="flex flex-col gap-space-xs max-w-xl text-center md:text-left">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-primary">Siap Memulai Eksperimen?</span>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">Buka Modul Pembelajaran Pertama Anda</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Pahami konsep pertukaran elemen pada Bubble Sort atau eksplorasi efisiensi pencarian biner dalam hitungan detik.
+        </p>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-space-sm">
+<a class="px-space-lg py-3 rounded-xl bg-primary text-on-primary font-headline-sm text-headline-sm font-semibold hover:bg-primary-fixed shadow-[0_0_20px_rgba(76,215,246,0.3)] transition-all" data-path="sorting" href="sorting.html">
+          Buka Modul Sorting
+        </a>
+<a class="px-space-md py-3 rounded-xl bg-surface-container-highest text-on-surface hover:text-primary font-headline-sm text-headline-sm transition-all" data-path="petunjuk" href="petunjuk.html">
+          Baca Petunjuk Penggunaan
+        </a>
+</div>
+</div>
+</section>
+</div>
+
 </main>
-<footer><div class="container">Media pembelajaran hasil penelitian pengembangan (ADDIE) &ndash; Riski Adha Nursalim, Program Studi PTIK</div></footer>
-<script src="js/main.js"></script>
-</body></html>
+<footer class="w-full bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-1px_16px_rgba(0,0,0,0.4)] py-space-xl"><div class="w-full px-gutter md:px-margin flex flex-col md:flex-row items-center justify-between gap-space-lg"><div class="flex flex-col items-center md:items-start gap-space-xs"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm text-on-surface font-bold">VisuAlgo PTIK</span><span class="font-label-mono text-label-mono px-space-xs py-0.5 rounded bg-surface-container-high text-secondary">Interactive Lab</span></div><p class="font-body-sm text-body-sm text-on-surface-variant text-center md:text-left">Media Pembelajaran Interaktif Visualisasi Algoritma Sorting dan Searching berbasis Web.</p></div><div class="flex flex-col items-center md:items-end gap-space-xs text-center md:text-right"><p class="font-label-mono text-label-mono text-primary">Penelitian Pengembangan Model ADDIE</p><p class="font-body-sm text-body-sm text-on-surface-variant">Dikembangkan oleh <span class="text-on-surface font-semibold">Riski Adha Nursalim</span></p><p class="font-body-sm text-body-sm text-on-surface-variant/70">Program Studi Pendidikan Teknik Informatika &amp; Komputer (PTIK)</p></div></div>
+</footer></body></html>

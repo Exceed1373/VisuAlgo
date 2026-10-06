@@ -1,124 +1,442 @@
 <!DOCTYPE html>
-<html lang="id">
+
+<html class="dark" lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sorting | VisuAlgo PTIK</title>
-<meta name="description" content="Media pembelajaran interaktif visualisasi algoritma Sorting dan Searching untuk mahasiswa PTIK.">
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-<header class="navbar"><div class="container nav-inner">
-  <a class="brand" href="index.html">VisuAlgo <span>PTIK</span></a>
-  <nav id="menu" aria-label="Navigasi utama">
-    <a href="index.html">Beranda</a><a href="sorting.html">Sorting</a><a href="searching.html">Searching</a><a href="petunjuk.html">Petunjuk</a>
-  </nav>
-</div></header>
-<main class="container">
-<section id="pilih" class="section">
-  <h1>Sorting</h1>
-  <p>Pilih satu algoritma, baca ringkasannya, lalu buka visualisasi.</p>
-  <div id="algo-list" class="grid">
-    <button class="card algo-card" data-algo="bubble" aria-pressed="false"><h2>Bubble Sort</h2><p>Membandingkan dua elemen bersebelahan dan menukarnya bila urutannya salah, diulang sampai terurut.</p></button>
-    <button class="card algo-card" data-algo="selection" aria-pressed="false"><h2>Selection Sort</h2><p>Mencari elemen terkecil di bagian yang belum terurut, lalu menempatkannya di posisi paling depan.</p></button>
-    <button class="card algo-card" data-algo="insertion" aria-pressed="false"><h2>Insertion Sort</h2><p>Menyisipkan tiap elemen ke posisi yang tepat pada bagian kiri yang sudah terurut.</p></button>
-    <button class="card algo-card" data-algo="quick" aria-pressed="false"><h2>Quick Sort</h2><p>Memilih pivot, membagi data menjadi lebih kecil dan lebih besar dari pivot, lalu mengurutkan tiap bagian.</p></button>
-    <button class="card algo-card" data-algo="merge" aria-pressed="false"><h2>Merge Sort</h2><p>Membagi data menjadi dua bagian, mengurutkan masing-masing, lalu menggabungkannya kembali.</p></button>
-  </div>
-  <h2>Kompleksitas Waktu</h2>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="shell-type" content="web_standard" />
+  <title>VisuAlgo PTIK - Sorting</title>
 
-<div class="table-wrap">
-  <table class="complexity-table">
-    <thead>
-      <tr>
-        <th>Algoritma</th>
-        <th>Terbaik</th>
-        <th>Rata-rata</th>
-        <th>Terburuk</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Bubble Sort</strong></td>
-        <td><span class="complexity good">O(n)</span></td>
-        <td><span class="complexity slow">O(n²)</span></td>
-        <td><span class="complexity slow">O(n²)</span></td>
-      </tr>
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 
-      <tr>
-        <td><strong>Selection Sort</strong></td>
-        <td><span class="complexity slow">O(n²)</span></td>
-        <td><span class="complexity slow">O(n²)</span></td>
-        <td><span class="complexity slow">O(n²)</span></td>
-      </tr>
+  <!-- Gaya -->
+  <link rel="stylesheet" href="css/style.css" />
 
-      <tr>
-        <td><strong>Insertion Sort</strong></td>
-        <td><span class="complexity good">O(n)</span></td>
-        <td><span class="complexity slow">O(n²)</span></td>
-        <td><span class="complexity slow">O(n²)</span></td>
-      </tr>
-
-      <tr>
-        <td><strong>Quick Sort</strong></td>
-        <td><span class="complexity good">O(n log n)</span></td>
-        <td><span class="complexity good">O(n log n)</span></td>
-        <td><span class="complexity slow">O(n²)</span></td>
-      </tr>
-
-      <tr>
-        <td><strong>Merge Sort</strong></td>
-        <td><span class="complexity good">O(n log n)</span></td>
-        <td><span class="complexity good">O(n log n)</span></td>
-        <td><span class="complexity good">O(n log n)</span></td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Script -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/main.js"></script>
+  <script src="js/sorting.js" defer></script>
+</head><body class="bg-background text-on-surface font-body-md text-body-md min-h-screen selection:bg-primary-container selection:text-on-primary-container">
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_12px_32px_-4px_rgba(6,182,212,0.08),0_4px_12px_rgba(0,0,0,0.5)]"><div class="h-16 w-full px-gutter md:px-margin flex items-center justify-between"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm group" data-path="beranda" href="index.html"><div class="flex items-center justify-center w-9 h-9 rounded-lg bg-surface-container-high shadow-[0_0_15px_rgba(76,215,246,0.25)]"><span class="material-symbols-outlined text-primary text-[20px]">terminal</span></div><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-bold">VisuAlgo</span><span class="font-label-badge text-label-badge px-space-xs py-0.5 rounded bg-primary-container/20 text-primary shadow-[0_0_10px_rgba(6,182,212,0.4)]">PTIK</span></div></div></a></div>
+<nav class="hidden md:flex items-center gap-space-xs p-1 rounded-xl bg-surface-container-low" data-active-classes="bg-surface-container-high text-primary font-semibold rounded-lg"><a class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="beranda" href="index.html">Beranda</a><a aria-current="page" class="px-space-md py-1.5 transition-all bg-surface-container-high text-primary font-semibold rounded-lg" data-path="sorting" href="sorting.html">Sorting</a><a class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="searching" href="searching.html">Searching</a><a class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="petunjuk" href="petunjuk.html">Petunjuk</a>
+</nav><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(78,222,163,0.8)]"></span><span class="font-label-mono text-label-mono text-on-surface-variant">v2.0 ADDIE</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div>
+</header>
+<main class="w-full pt-16 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Academic Context Ribbon -->
+<div class="w-full px-gutter md:px-margin py-space-sm bg-surface-container-lowest/60 flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-badge text-label-badge px-space-xs py-0.5 rounded bg-primary/10 text-primary uppercase tracking-wider">Modul Praktikum PTIK-302</span>
+<span class="text-outline text-body-sm">•</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Struktur Data &amp; Analisis Algoritma</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-label-mono text-label-mono text-on-surface-variant flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary inline-block animate-pulse"></span>
+        Runtime Visualizer: Aktif
+      </span>
+<span class="font-label-mono text-label-mono text-outline-variant">ADDIE Phase: Development</span>
+</div>
+</div>
+<!-- Header & Algorithm Selection Matrix -->
+<section class="w-full px-gutter md:px-margin pt-space-lg pb-space-md">
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md mb-space-lg">
+<div class="space-y-space-xs max-w-3xl">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[28px]">analytics</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-extrabold">Visualisasi Algoritma Sorting</h1>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Eksplorasi representasi dinamis komparasi elemen, swap in-place, dan pergerakan partisi secara real-time. Didesain untuk memperdalam pemahaman intuisi logika sorting mahasiswa teknik informatika.
+        </p>
+</div>
+<!-- Quick Action Switch -->
+<div class="flex items-center gap-space-sm bg-surface-container-low p-1.5 rounded-xl shadow-inner self-start lg:self-auto">
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-high text-primary font-headline-sm text-body-md font-semibold shadow-sm transition-all flex items-center gap-1.5" id="modeVisualizerBtn">
+<span class="material-symbols-outlined text-[18px]">bar_chart</span>
+          Mode Batang
+        </button>
+<button class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-1.5" id="toggleAudioBtn">
+<span class="material-symbols-outlined text-[18px]">volume_up</span>
+<span class="font-body-sm text-body-sm">Audio Clicks</span>
+</button>
+</div>
+</div>
+<!-- Algorithm Cards Carousel / Bento Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-space-sm" id="algoSelectorGrid">
+<!-- Bubble Sort -->
+<div class="algo-card cursor-pointer p-space-md rounded-xl bg-surface-container-high shadow-md transition-all duration-200 hover:scale-[1.02] flex flex-col justify-between group" data-algo="bubble">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-badge text-label-badge px-space-xs py-0.5 rounded bg-amber-500/15 text-tertiary">O(n²) Avg</span>
+<span class="material-symbols-outlined text-primary text-[20px] opacity-100 check-icon">check_circle</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors">Bubble Sort</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">Pergeseran gelembung elemen terbesar bertahap ke posisi akhir.</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-outline">In-Place: Yes</span>
+<span class="font-label-mono text-label-mono text-secondary">Stabil</span>
+</div>
+</div>
+<!-- Selection Sort -->
+<div class="algo-card cursor-pointer p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container shadow-sm transition-all duration-200 hover:scale-[1.02] flex flex-col justify-between group" data-algo="selection">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-badge text-label-badge px-space-xs py-0.5 rounded bg-amber-500/15 text-tertiary">O(n²) Avg</span>
+<span class="material-symbols-outlined text-primary text-[20px] opacity-0 check-icon">check_circle</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors">Selection Sort</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">Pencarian nilai minimum sisa array lalu menukarnya ke depan.</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-outline">In-Place: Yes</span>
+<span class="font-label-mono text-label-mono text-error">Tak Stabil</span>
+</div>
+</div>
+<!-- Insertion Sort -->
+<div class="algo-card cursor-pointer p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container shadow-sm transition-all duration-200 hover:scale-[1.02] flex flex-col justify-between group" data-algo="insertion">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-badge text-label-badge px-space-xs py-0.5 rounded bg-amber-500/15 text-tertiary">O(n²) Avg</span>
+<span class="material-symbols-outlined text-primary text-[20px] opacity-0 check-icon">check_circle</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors">Insertion Sort</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">Menyisipkan satu per satu kartu data ke posisi urut yang tepat.</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-outline">Best: O(n)</span>
+<span class="font-label-mono text-label-mono text-secondary">Stabil</span>
+</div>
+</div>
+<!-- Quick Sort -->
+<div class="algo-card cursor-pointer p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container shadow-sm transition-all duration-200 hover:scale-[1.02] flex flex-col justify-between group" data-algo="quick">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-badge text-label-badge px-space-xs py-0.5 rounded bg-secondary/15 text-secondary">O(n log n)</span>
+<span class="material-symbols-outlined text-primary text-[20px] opacity-0 check-icon">check_circle</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors">Quick Sort</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">Divide &amp; conquer partisi pivot Lomuto berkecepatan tinggi.</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-outline">Pivot: Last</span>
+<span class="font-label-mono text-label-mono text-error">Tak Stabil</span>
+</div>
+</div>
+<!-- Merge Sort -->
+<div class="algo-card cursor-pointer p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container shadow-sm transition-all duration-200 hover:scale-[1.02] flex flex-col justify-between group col-span-2 md:col-span-1" data-algo="merge">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-badge text-label-badge px-space-xs py-0.5 rounded bg-secondary/15 text-secondary">O(n log n)</span>
+<span class="material-symbols-outlined text-primary text-[20px] opacity-0 check-icon">check_circle</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors">Merge Sort</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">Pembagian rekursif sub-array hingga elemen tunggal lalu digabung.</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-outline">Space: O(n)</span>
+<span class="font-label-mono text-label-mono text-secondary">Stabil</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Visualizer Arena (Workspace Stage) -->
+<section class="w-full px-gutter md:px-margin py-space-md">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-md">
+<!-- Interactive Stage & Controls: 8 Columns -->
+<div class="xl:col-span-8 flex flex-col gap-space-sm">
+<!-- Canvas Card -->
+<div class="relative w-full rounded-2xl bg-surface-container-lowest shadow-2xl p-space-md md:p-space-lg flex flex-col min-h-[460px] justify-between overflow-hidden">
+<!-- Background Subtle Grid -->
+<div class="absolute inset-0 opacity-15 pointer-events-none" style="background-image: radial-gradient(circle, #4cd7f6 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- Stage Top Bar: Algorithm title + Legend -->
+<div class="relative z-10 flex flex-wrap items-center justify-between gap-space-sm pb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-mono text-label-mono px-space-sm py-1 rounded-md bg-primary-container text-on-primary-container font-semibold tracking-wide uppercase" id="activeAlgoBadge">Bubble Sort</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant bg-surface-container-high px-space-xs py-1 rounded" id="activePassIndicator">Pass: 0/0</span>
+</div>
+<!-- Visual Legend -->
+<div class="flex flex-wrap items-center gap-space-sm text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-primary shadow-[0_0_8px_rgba(76,215,246,0.5)]"></span>
+<span class="font-body-sm text-body-sm">Default</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-tertiary shadow-[0_0_8px_rgba(255,185,95,0.6)]"></span>
+<span class="font-body-sm text-body-sm">Bandingkan</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-error shadow-[0_0_8px_rgba(255,180,171,0.6)]"></span>
+<span class="font-body-sm text-body-sm">Swap / Pivot</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-secondary shadow-[0_0_8px_rgba(78,222,163,0.7)]"></span>
+<span class="font-body-sm text-body-sm">Selesai (Sorted)</span>
+</div>
+</div>
+</div>
+<!-- Dynamic Bar Chart Stage Area -->
+<div class="relative z-10 w-full h-72 flex items-end justify-center gap-1.5 sm:gap-2 pt-6 pb-2 px-2 overflow-x-auto" id="chartContainer">
+<!-- Bars rendered via JavaScript -->
+</div>
+<!-- Stage Bottom Metrics Strip -->
+<div class="relative z-10 pt-space-sm flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">compare_arrows</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Perbandingan:</span>
+<span class="font-label-mono text-label-mono font-bold text-on-surface bg-surface-container px-2 py-0.5 rounded" id="compareCount">0</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-[18px]">swap_horiz</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pertukaran:</span>
+<span class="font-label-mono text-label-mono font-bold text-on-surface bg-surface-container px-2 py-0.5 rounded" id="swapCount">0</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs text-outline">
+<span class="material-symbols-outlined text-[16px]">timer</span>
+<span class="font-label-mono text-label-mono" id="execTime">0.00 ms (virtual)</span>
+</div>
+</div>
+</div>
+<!-- Master Playback & Parameters Control Bar -->
+<div class="w-full rounded-2xl bg-surface-container p-space-md shadow-xl flex flex-col gap-space-md">
+<!-- Primary Actions Strip -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex flex-wrap items-center gap-space-xs">
+<button class="px-space-lg py-2.5 rounded-xl bg-gradient-to-r from-primary-container to-secondary text-surface-container-lowest font-headline-sm text-body-md font-bold shadow-[0_0_20px_rgba(6,182,212,0.35)] hover:opacity-95 active:scale-95 transition-all flex items-center gap-2" id="startSortBtn">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+<span>Mulai</span>
+</button>
+<button class="px-space-md py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-body-md font-semibold transition-all active:scale-95 flex items-center gap-1.5" id="pauseSortBtn">
+<span class="material-symbols-outlined text-[20px]">pause</span>
+<span>Jeda</span>
+</button>
+<button class="px-space-md py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-body-md font-semibold transition-all active:scale-95 flex items-center gap-1.5" id="stepSortBtn" title="Eksekusi satu langkah perbandingan/tukar">
+<span class="material-symbols-outlined text-[20px]">step</span>
+<span>Langkah</span>
+</button>
+<button class="px-space-md py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface font-body-md font-semibold transition-all active:scale-95 flex items-center gap-1.5" id="resetSortBtn">
+<span class="material-symbols-outlined text-[20px]">restart_alt</span>
+<span>Reset</span>
+</button>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-2.5 rounded-xl bg-surface-container-high hover:text-primary text-on-surface font-body-md font-medium transition-all active:scale-95 flex items-center gap-1.5" id="shuffleBtn">
+<span class="material-symbols-outlined text-[18px]">shuffle</span>
+<span>Acak Data</span>
+</button>
+<button class="px-space-md py-2.5 rounded-xl bg-surface-container-high hover:text-primary text-on-surface font-body-md font-medium transition-all active:scale-95 flex items-center gap-1.5" id="reverseBtn" title="Kondisi terburuk (Worst Case)">
+<span class="material-symbols-outlined text-[18px]">swap_vert</span>
+<span>Balik Nilai</span>
+</button>
+</div>
+</div>
+<!-- Configuration & Array Tuner -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-md pt-space-xs items-center">
+<!-- Manual Array Input -->
+<div class="md:col-span-6 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<label class="font-label-mono text-label-mono text-on-surface-variant flex items-center gap-1" for="customArrayInput">
+<span class="material-symbols-outlined text-[14px]">edit_note</span> Input Data Manual (Pisahkan koma):
+                </label>
+<span class="font-label-mono text-label-mono text-secondary" id="inputValidationMsg">Valid Array</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<input class="w-full bg-surface-container-lowest px-space-sm py-2 rounded-xl font-label-mono text-label-mono text-primary outline-none focus:ring-2 focus:ring-primary/40 shadow-inner" id="customArrayInput" type="text" value="80, 30, 55, 42, 19, 73, 95, 12, 64, 48"/>
+<button class="px-space-md py-2 rounded-xl bg-primary-container text-on-primary-container font-headline-sm text-body-sm font-semibold hover:opacity-90 active:scale-95 transition-all" id="applyCustomBtn">
+                  Terapkan
+                </button>
+</div>
+</div>
+<!-- Size Slider -->
+<div class="md:col-span-3 flex flex-col gap-1">
+<div class="flex items-center justify-between font-label-mono text-label-mono text-on-surface-variant">
+<span>Jumlah (N):</span>
+<span class="text-primary font-bold" id="sizeValue">12</span>
+</div>
+<input class="w-full h-1.5 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" id="sizeSlider" max="30" min="5" type="range" value="12"/>
+</div>
+<!-- Speed Slider -->
+<div class="md:col-span-3 flex flex-col gap-1">
+<div class="flex items-center justify-between font-label-mono text-label-mono text-on-surface-variant">
+<span>Kecepatan:</span>
+<span class="text-secondary font-bold" id="speedValue">Normal</span>
+</div>
+<input class="w-full h-1.5 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-secondary" id="speedSlider" max="600" min="20" type="range" value="250"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Synchronized Pseudocode & Trace Inspector: 4 Columns -->
+<div class="xl:col-span-4 flex flex-col gap-space-sm">
+<!-- Live Pedagogical Step Log -->
+<div class="rounded-2xl bg-surface-container p-space-md shadow-xl flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Penjelasan Langkah</h2>
+</div>
+<span class="font-label-badge text-label-badge bg-surface-container-highest text-on-surface-variant px-space-xs py-0.5 rounded">Trace AI Log</span>
+</div>
+<div class="min-h-[85px] bg-surface-container-lowest rounded-xl p-space-sm flex flex-col justify-center shadow-inner" id="liveStepExplanation">
+<p class="font-body-md text-body-md text-primary font-medium" id="logHeadline">Visualizer Siap</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="logDetail">Tekan tombol 'Mulai' atau gunakan 'Langkah' untuk mengamati proses komparasi nilai per iterasi.</p>
+</div>
+</div>
+<!-- Synchronized Pseudocode Block -->
+<div class="rounded-2xl bg-surface-container p-space-md shadow-xl flex flex-col flex-1 gap-space-xs">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">code</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Pseudocode Sinkron</h3>
+</div>
+<span class="font-label-mono text-label-mono text-on-surface-variant" id="codeLangBadge">Standard Pseudocode</span>
+</div>
+<!-- Code Viewer Frame -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm font-code-block text-code-block text-on-surface-variant overflow-x-auto space-y-1 shadow-inner select-none min-h-[220px]" id="pseudocodeContainer">
+<!-- Dynamic lines highlighted on execution -->
+</div>
+<!-- Memory State Inspect Snapshot -->
+<div class="mt-space-xs pt-space-xs bg-surface-container-low rounded-xl p-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-mono text-label-mono text-outline">Pointer Aktif:</span>
+<span class="font-label-mono text-label-mono text-primary font-bold" id="currentPointers">i: null | j: null</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-badge text-label-badge px-space-xs py-0.5 rounded bg-surface-container-high text-secondary">PTIK Lab Engine</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Comprehensive Algorithm Complexity Comparison Matrix -->
+<section class="w-full px-gutter md:px-margin py-space-xl">
+<div class="w-full rounded-2xl bg-surface-container p-space-lg md:p-space-xl shadow-2xl flex flex-col gap-space-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="space-y-space-xs max-w-2xl">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[24px]">school</span>
+<span class="font-label-badge text-label-badge px-space-xs py-0.5 rounded bg-secondary/15 text-secondary uppercase">Analisis Asimtotik</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Tabel Kompleksitas Waktu &amp; Memori</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Matriks evaluasi matematis efisiensi sorting untuk mahasiswa PTIK dalam perancangan algoritma berskala besar.
+          </p>
+</div>
+<!-- Legend Pill of Complexity Scale -->
+<div class="flex flex-wrap items-center gap-space-xs bg-surface-container-lowest p-2 rounded-xl">
+<span class="font-label-badge text-label-badge px-2 py-1 rounded bg-secondary/15 text-secondary font-semibold">O(1) / O(n) Efisien</span>
+<span class="font-label-badge text-label-badge px-2 py-1 rounded bg-primary/15 text-primary font-semibold">O(n log n) Optimal</span>
+<span class="font-label-badge text-label-badge px-2 py-1 rounded bg-amber-500/15 text-tertiary font-semibold">O(n²) Sedang</span>
+<span class="font-label-badge text-label-badge px-2 py-1 rounded bg-error/15 text-error font-semibold">O(n²) Buruk</span>
+</div>
+</div>
+<!-- Modern Glass Table -->
+<div class="w-full overflow-x-auto rounded-xl bg-surface-container-lowest shadow-inner">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container-high/60 text-on-surface font-headline-sm text-body-sm border-b border-transparent">
+<th class="py-3.5 px-4 font-semibold">Nama Algoritma</th>
+<th class="py-3.5 px-4 font-semibold">Best Case</th>
+<th class="py-3.5 px-4 font-semibold">Average Case</th>
+<th class="py-3.5 px-4 font-semibold">Worst Case</th>
+<th class="py-3.5 px-4 font-semibold">Space Complexity</th>
+<th class="py-3.5 px-4 font-semibold">Karakteristik &amp; Stabilitas</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high text-on-surface-variant">
+<!-- Bubble -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3.5 px-4 font-bold text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Bubble Sort
+              </td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-secondary/15 text-secondary">O(n)</span></td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-amber-500/15 text-tertiary">O(n²)</span></td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-error/15 text-error">O(n²)</span></td>
+<td class="py-3.5 px-4 font-label-mono text-label-mono text-on-surface">O(1)</td>
+<td class="py-3.5 px-4 text-on-surface-variant">Stabil, penukaran elemen bersebelahan, lambat untuk dataset besar.</td>
+</tr>
+<!-- Selection -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3.5 px-4 font-bold text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span> Selection Sort
+              </td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-error/15 text-error">O(n²)</span></td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-amber-500/15 text-tertiary">O(n²)</span></td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-error/15 text-error">O(n²)</span></td>
+<td class="py-3.5 px-4 font-label-mono text-label-mono text-on-surface">O(1)</td>
+<td class="py-3.5 px-4 text-on-surface-variant">Tidak stabil, meminimalkan jumlah penukaran (maksimum $n$ kali swap).</td>
+</tr>
+<!-- Insertion -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3.5 px-4 font-bold text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Insertion Sort
+              </td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-secondary/15 text-secondary">O(n)</span></td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-amber-500/15 text-tertiary">O(n²)</span></td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-error/15 text-error">O(n²)</span></td>
+<td class="py-3.5 px-4 font-label-mono text-label-mono text-on-surface">O(1)</td>
+<td class="py-3.5 px-4 text-on-surface-variant">Stabil, adaptif tinggi untuk data yang hampir terurut (nearly sorted).</td>
+</tr>
+<!-- Quick -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3.5 px-4 font-bold text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Quick Sort
+              </td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-primary/15 text-primary">O(n log n)</span></td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-primary/15 text-primary">O(n log n)</span></td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-error/15 text-error">O(n²)</span></td>
+<td class="py-3.5 px-4 font-label-mono text-label-mono text-on-surface">O(log n)</td>
+<td class="py-3.5 px-4 text-on-surface-variant">Tidak stabil, sangat cepat pada cache prosesor, worst-case jika pivot buruk.</td>
+</tr>
+<!-- Merge -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3.5 px-4 font-bold text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed"></span> Merge Sort
+              </td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-primary/15 text-primary">O(n log n)</span></td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-primary/15 text-primary">O(n log n)</span></td>
+<td class="py-3.5 px-4"><span class="font-label-mono text-label-mono px-2 py-0.5 rounded bg-primary/15 text-primary">O(n log n)</span></td>
+<td class="py-3.5 px-4 font-label-mono text-label-mono text-tertiary">O(n)</td>
+<td class="py-3.5 px-4 text-on-surface-variant">Stabil, performa konsisten di semua kasus, membutuhkan array memori tambahan.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pedagogical Tips Note -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md pt-space-xs">
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]">lightbulb</span>
+<span class="font-headline-sm text-body-sm font-bold">Kapan Memilih Insertion Sort?</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ketika dataset berukuran kecil ($n &lt; 30$) atau data telah terurut sebagian. Memiliki overhead komputasi paling minim.</p>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-[20px]">speed</span>
+<span class="font-headline-sm text-body-sm font-bold">Keunggulan Quick Sort</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Memiliki faktor pengali konstan terkecil dibanding Merge Sort dan tidak memerlukan alokasi memori tambahan $O(n)$ pada heap.</p>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center gap-2 text-tertiary">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+<span class="font-headline-sm text-body-sm font-bold">Mengapa Merge Sort Penting?</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Pilihan utama bila kestabilan posisi elemen kembar wajib dipertahankan, serta ideal untuk external sorting (seperti linked list atau disk data).</p>
+</div>
+</div>
+</div>
+</section>
 </div>
 
-<div class="complexity-info">
-  <p><strong>Cara membaca:</strong></p>
-  <div class="complexity-guide">
-    <span><span class="complexity good">O(n)</span> Cepat</span>
-    <span><span class="complexity good">O(n log n)</span> Relatif cepat</span>
-    <span><span class="complexity slow">O(n²)</span> Lebih lambat</span>
-  </div>
-  <p class="complexity-note">
-    Semakin kecil pertumbuhan kompleksitasnya, semakin baik kinerja algoritma
-    ketika jumlah data semakin banyak.
-  </p>
-</div>
-  <p><button id="btn-buka" class="btn" disabled>Buka visualisasi</button></p>
-</section>
-
-<section id="viz" class="section" hidden>
-  <div class="viz-head"><h1 id="algo-title">Sorting</h1><button id="btn-ganti" class="btn ghost">Ganti algoritma</button></div>
-  <ul class="legend">
-    <li><span class="dot idle"></span>Belum diproses</li>
-    <li><span class="dot compare"></span>Dibandingkan</li>
-    <li><span class="dot swap"></span>Ditukar / pivot</li>
-    <li><span class="dot done"></span>Terurut</li>
-  </ul>
-  <div class="controls">
-    <button id="btn-acak" class="btn ghost">Acak</button>
-    <label>Manual <input id="input-manual" type="text" placeholder="mis. 80, 30, 55"></label>
-    <button id="btn-terapkan" class="btn ghost">Terapkan</button>
-    <label>Jumlah <input id="input-jumlah" type="number" min="5" max="30" value="8"></label>
-    <label>Kecepatan <input id="input-kecepatan" type="range" min="1" max="5" value="3"></label>
-  </div>
-  <p id="pesan-galat" class="galat" role="alert" hidden></p>
-  <div id="stage" class="stage" aria-label="Area batang data"></div>
-  <div class="controls">
-    <button id="btn-mulai" class="btn">Mulai</button>
-    <button id="btn-jeda" class="btn ghost">Jeda</button>
-    <button id="btn-langkah" class="btn ghost">Langkah</button>
-    <button id="btn-reset" class="btn ghost">Reset</button>
-  </div>
-  <div id="penjelasan" class="info" aria-live="polite">Penjelasan langkah akan tampil di sini.</div>
-  <p class="counter">Perbandingan: <span id="n-banding">0</span> | Pertukaran: <span id="n-tukar">0</span></p>
-</section>
 </main>
-<footer><div class="container">Media pembelajaran hasil penelitian pengembangan (ADDIE) &ndash; Riski Adha Nursalim, Program Studi PTIK</div></footer>
-<script src="js/main.js"></script>
-<script src="js/sorting.js"></script>
-</body></html>
+<footer class="w-full bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-1px_16px_rgba(0,0,0,0.4)] py-space-xl"><div class="w-full px-gutter md:px-margin flex flex-col md:flex-row items-center justify-between gap-space-lg"><div class="flex flex-col items-center md:items-start gap-space-xs"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm text-on-surface font-bold">VisuAlgo PTIK</span><span class="font-label-mono text-label-mono px-space-xs py-0.5 rounded bg-surface-container-high text-secondary">Interactive Lab</span></div><p class="font-body-sm text-body-sm text-on-surface-variant text-center md:text-left">Media Pembelajaran Interaktif Visualisasi Algoritma Sorting dan Searching berbasis Web.</p></div><div class="flex flex-col items-center md:items-end gap-space-xs text-center md:text-right"><p class="font-label-mono text-label-mono text-primary">Penelitian Pengembangan Model ADDIE</p><p class="font-body-sm text-body-sm text-on-surface-variant">Dikembangkan oleh <span class="text-on-surface font-semibold">Riski Adha Nursalim</span></p><p class="font-body-sm text-body-sm text-on-surface-variant/70">Program Studi Pendidikan Teknik Informatika &amp; Komputer (PTIK)</p></div></div>
+</footer></body></html>
